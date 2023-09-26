@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { teamForm, TeamFormData } from "./zodSchema/teamForm";
 import React from "react";
 
-
 type Field = { label: string; placeholder?: string; id: keyof TeamFormData }
 const fields: Field[] = [
     { label: 'Nome do Time', id: 'teamName', placeholder: 'Santa' },
@@ -54,10 +53,13 @@ export default function CreateTeamForm(props: { onSubmit: (data: TeamFormData) =
                         </div>
 
                         {/* Form Body */}
-                        <div className="rounded-tr-4xl bg-white px-10 pb-8 pt-4">
+                        <div className="rounded-tr-4xl bg-white px-10 pb-8">
                             <h1 className="text-2xl font-semibold text-gray-900">
-                                Welcome back!
+                                Bora jogar ?
                             </h1>
+                            <h2 className="text-1xl font-semibold text-gray-600">
+                                Escolha seu time
+                            </h2>
                             <form
                                 className="mt-6"
                                 action=""

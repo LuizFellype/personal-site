@@ -1,32 +1,59 @@
 'use client'
 import { TeamFormData } from '@/containers/CreateTeamForm/zodSchema/teamForm';
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export type RawTeam = {
     id: string;
-    name: string,
+    name: string;
     players: string[]
 }
 
 type ContextStateType = {
     teams: RawTeam[],
+    selectedTeams: string[],
     addTeam: (teamFormData: TeamFormData) => void
     deleteTeam: (id: string) => void
+    selectTeam: (id: string) => void
 }
 
-const initialState = { teams: [], addTeam: () => { }, deleteTeam: () => { } };
+const initialState: ContextStateType = {
+    teams: [],
+    selectedTeams: [],
+    addTeam: () => { },
+    deleteTeam: () => { },
+    selectTeam: () => { }
+};
 const TeamsContext = createContext<ContextStateType>(initialState);
 
+const createRawTeam = (teamFormData: TeamFormData): RawTeam => {
+    const { teamName, player1, player2, player3 } = teamFormData
+    const newTeam = {
+        id: teamName, name: teamName,
+        players: [player1, player2, player3]
+    };
+    return newTeam
+}
+
+
+const initialTeamsTest = [createRawTeam({
+    teamName: 'Centro', player1: 'Luiz', player2: 'LypeZ', player3: 'Kaio',
+}),
+createRawTeam({
+    teamName: 'Santa', player1: 'Chris', player2: 'Drew', player3: 'Gelin',
+}),
+createRawTeam({
+    teamName: 'El Crime', player1: 'Bruno', player2: 'Luiz Agua', player3: 'Jack',
+})]
+
+const initialSelectedTeamsTest = [initialTeamsTest[0].id, initialTeamsTest[1].id]
+
+
 export function TeamsProvider(props: { children: React.ReactNode }) {
-    const [teams, setTeams] = useState<RawTeam[]>([]);
+    const [teams, setTeams] = useState<RawTeam[]>(initialTeamsTest);
+    const [selectedTeams, setSelectedTeams] = useState<string[]>(initialSelectedTeamsTest);
 
     const addTeam = useCallback((teamFormData: TeamFormData) => {
-        const { teamName, player1, player2, player3 } = teamFormData
-        const newTeam = {
-            id: teamName, name: teamName,
-            players: [player1, player2, player3]
-        };
-
+        const newTeam = createRawTeam(teamFormData)
         setTeams(crtTeams => !!crtTeams.find(team => team.name === newTeam.name) ? crtTeams : [...crtTeams, newTeam])
     }, [setTeams])
 
@@ -34,8 +61,22 @@ export function TeamsProvider(props: { children: React.ReactNode }) {
         setTeams(crtTeams => crtTeams.filter(team => team.id !== id))
     }, [setTeams])
 
+    const selectTeam = useCallback((teamId: string) => {
+        setSelectedTeams(crtSelectedTeamsId => {
+            if (crtSelectedTeamsId.includes(teamId)) {
+                return crtSelectedTeamsId.filter(id => id !== teamId)
+            }
+
+            if (crtSelectedTeamsId.length >= 2) {
+                return [crtSelectedTeamsId[1], teamId]
+            }
+
+            return [...crtSelectedTeamsId, teamId]
+        })
+    }, [setSelectedTeams])
+
     return (
-        <TeamsContext.Provider value={{ teams, addTeam, deleteTeam }}>
+        <TeamsContext.Provider value={{ teams, selectedTeams, addTeam, deleteTeam, selectTeam }}>
             {props.children}
         </TeamsContext.Provider>
     );

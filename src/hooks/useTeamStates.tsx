@@ -7,13 +7,20 @@ type MatchStats = {
     blocks: number;
     rebounds: number;
 }
+export type StatsKey = keyof MatchStats
+export const getStatsLabel = (statsKey: string) => ({
+    points: 'Pts',
+    assistances: 'Assis',
+    ballSteals: 'Ladrao',
+    blocks: 'Blocks',
+    rebounds: 'Reb',
+}[statsKey])
+
 export type Player = {
     id: string;
     name: string,
     teamId: string
 } & MatchStats
-
-type StatsKey = keyof MatchStats
 
 export type Team = MatchStats & {
     id: string;
@@ -71,14 +78,14 @@ export const useTeamStates = (teamName: string, teamMembers: string[] = []): Tea
 
     const matchStats = useMemo(() => {
         return players.reduce((acc, crt) => {
-                return {
-                    points: acc.points + crt.points,
-                    assistances: acc.assistances + crt.assistances,
-                    ballSteals: acc.ballSteals + crt.ballSteals,
-                    blocks: acc.blocks + crt.blocks,
-                    rebounds: acc.rebounds + crt.rebounds,
-                }
-            }, initialStatsState)
+            return {
+                points: acc.points + crt.points,
+                assistances: acc.assistances + crt.assistances,
+                ballSteals: acc.ballSteals + crt.ballSteals,
+                blocks: acc.blocks + crt.blocks,
+                rebounds: acc.rebounds + crt.rebounds,
+            }
+        }, initialStatsState)
     }, [players])
 
     return {
