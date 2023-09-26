@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TeamsProvider><div className='min-h-screen bg-rose-100'>{children}</div></TeamsProvider>
+        <TeamsProvider><div className='min-h-screen bg-rose-100 px-4'>{children}</div></TeamsProvider>
       </body>
     </html>
   )
