@@ -1,8 +1,8 @@
 button.stats-action {
-  background-color: #fbeee0;
+  background-color: #7d4ef363;
   border: 2px solid #422800;
   border-radius: 50%;
-  box-shadow: #42280091 3px 3px 0 0;
+  box-shadow: #1f024791 3px 3px 0 0;
   color: #422800;
   cursor: pointer;
   display: inline-block;
@@ -10,6 +10,31 @@ button.stats-action {
   font-size: 18px;
   padding: 0 5px;
   text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.orange-shadow {
+  box-shadow: rgba(234, 171, 53, 0.322) 3px 3px 0 0;
+}
+
+.team-name {
+  color: #b26a02
+}
+
+.btn-config {
+  backface-visibility: hidden;
+  border-radius: 20%;
+  box-sizing: border-box;
+  border: .125rem solid rgb(234, 171, 53);
+  cursor: pointer;
+  display: inline-block;
+  font-family: Circular, Helvetica, sans-serif;
+  line-height: 1;
+  padding: 2px 5px;
+  position: relative;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;

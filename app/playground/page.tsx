@@ -16,7 +16,7 @@ export default function Playground() {
   const teamB = useTeamStates(rawTeamB.name, rawTeamB.players)
 
   return (
-    <main className='force-landscap h-full w-full'>
+    <main className='force-landscap h-full w-full pt-2'>
       <div className='flex justify-between text-black'>
         <PlaygroundTeam team={teamA} />
         <PlaygroundTeam team={teamB} />

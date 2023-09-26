@@ -10,6 +10,10 @@ export const getStatsActionLabel = (statsKey: string) => ({
   rebounds: 'Reb',
 }[statsKey])
 
+const hasOrangeShadow = (flag: boolean) => flag ? 'orange-shadow' : ''
+const flipCurrentState = (setState: React.Dispatch<React.SetStateAction<boolean>>) => () => {
+  setState(crt => !crt)
+}
 
 export function PlaygroundTeam({ team }: { team: Team }) {
   const [revert, setRevert] = useState(false)
@@ -17,10 +21,6 @@ export function PlaygroundTeam({ team }: { team: Team }) {
   
   const [seePlayerStats, setSeePlayerStats] = useState(false)
   const confgLabelToShow = useMemo(() => seePlayerStats ? 'hide' : 'view', [seePlayerStats])
-
-  const flipCurrentState = useCallback((setState: React.Dispatch<React.SetStateAction<boolean>>) => () => {
-    setState(crt => !crt)
-  }, [])
 
   const { id, name,
     increasePoints,
@@ -55,9 +55,9 @@ export function PlaygroundTeam({ team }: { team: Team }) {
 
   return <section className='grow-[.4]'>
     <div className="flex justify-between mb-4">
-      <button className='self-start' onClick={flipCurrentState(setRevert)}>revert</button>
-      <h1 className='text-center text-2xl font-semibold text-gray-900 capitalize'>{name}</h1>
-      <button className='self-start' onClick={flipCurrentState(setSeePlayerStats)}>{confgLabelToShow}</button>
+      <button className={`self-start btn-config text-orange-400 ${hasOrangeShadow(revert)}`} onClick={flipCurrentState(setRevert)}>revert</button>
+      <h1 className='text-center text-2xl font-semibold text-orange-600 capitalize'>{name}</h1>
+      <button className={`self-start btn-config text-orange-400 ${hasOrangeShadow(seePlayerStats)}`} onClick={flipCurrentState(setSeePlayerStats)}>{confgLabelToShow}</button>
     </div>
 
     <div>

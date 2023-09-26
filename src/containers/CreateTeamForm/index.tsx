@@ -33,12 +33,12 @@ export default function CreateTeamForm(props: { onSubmit: (data: TeamFormData) =
     }
 
     return (
-        <div className="selection:bg-rose-500 selection:text-white">
+        <div className="selection:bg-purple-500 selection:text-white">
             <div className="flex items-center justify-center">
                 <div className="flex-1 p-8">
                     <div className="mx-auto w-80 overflow-hidden rounded-3xl bg-white shadow-xl">
                         {/* Form Header */}
-                        <div className="rounded-bl-4xl relative h-32 bg-rose-500">
+                        <div className="rounded-bl-4xl relative h-32 bg-purple-400">
                             <svg
                                 className="absolute bottom-0"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ export default function CreateTeamForm(props: { onSubmit: (data: TeamFormData) =
                                             id={field.id}
                                             name={field.id}
                                             type="text"
-                                            className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:border-rose-600 focus:outline-none"
+                                            className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:border-purple-600 focus:outline-none"
                                             placeholder={field.placeholder}
                                             autoComplete="off"
                                         />
@@ -95,18 +95,17 @@ export default function CreateTeamForm(props: { onSubmit: (data: TeamFormData) =
                                 <button
                                     type="submit"
                                     disabled={!isDirty || !isValid || isSubmitting}
-                                    className="block w-full cursor-pointer rounded bg-rose-500 px-4 py-2 text-center font-semibold text-white hover:bg-rose-400 focus:outline-none focus:ring focus:ring-rose-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70"
+                                    className="block w-full cursor-pointer rounded bg-purple-500 px-4 py-2 text-center font-semibold text-white hover:bg-purple-400 focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70"
                                 >
                                     {isSubmitting ? (
                                         <div role="status">
                                             <svg
                                                 aria-hidden="true"
-                                                className="inline w-6 h-6 mr-2 text-white animate-spin fill-rose-600 opacity-100"
+                                                className="inline w-6 h-6 mr-2 text-white animate-spin fill-purple-600 opacity-100"
                                                 viewBox="0 0 100 101"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
                                             >
-                                                {/* SVG for Spinner Animation */}
                                             </svg>
                                         </div>
                                     ) : (

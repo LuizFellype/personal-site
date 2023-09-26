@@ -24,7 +24,7 @@ export function TeamsList() {
             <button
                 type="submit"
                 disabled={selectedTeams.length !== 2}
-                className="block w-full cursor-pointer rounded bg-rose-500 px-4 py-2 mx-8 mt-3 text-center font-semibold text-white hover:bg-rose-400 focus:outline-none focus:ring focus:ring-rose-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70"
+                className="block w-full cursor-pointer rounded bg-purple-500 px-4 py-2 mx-8 mt-3 text-center font-semibold text-white hover:bg-purple-400 focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70"
                 onClick={() => {
                     router.push('/playground', { scroll: true })
                 }}
