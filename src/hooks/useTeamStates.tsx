@@ -10,11 +10,32 @@ type MatchStats = {
 export type Player = {
     id: string;
     name: string,
+    teamId: string
 } & MatchStats
 
 type StatsKey = keyof MatchStats
 
-export const createPlayer = (playerName: string): Player => {
+export type Team = MatchStats & {
+    id: string;
+    name: string,
+    players: Player[];
+    increasePoints: (playerId: string) => (amountToIncrease: number) => void;
+    increaseRebounds: (playerId: string) => (amountToIncrease: number) => void;
+    increaseAssistances: (playerId: string) => (amountToIncrease: number) => void;
+    increaseBallSteals: (playerId: string) => (amountToIncrease: number) => void;
+    increaseBlocks: (playerId: string) => (amountToIncrease: number) => void;
+}
+
+
+const initialStatsState: MatchStats = {
+    points: 0,
+    assistances: 0,
+    ballSteals: 0,
+    blocks: 0,
+    rebounds: 0,
+}
+
+export const createTeamPlayer = (teamId: string) => (playerName: string): Player => {
     return {
         id: playerName,
         name: playerName,
@@ -23,11 +44,11 @@ export const createPlayer = (playerName: string): Player => {
         ballSteals: 0,
         blocks: 0,
         rebounds: 0,
+        teamId: teamId
     }
 }
-
-export const useTeamStates = (teamMembers: string[] = []) => {
-    const [players, setPlayers] = useState<Player[]>(teamMembers.map(createPlayer))
+export const useTeamStates = (teamName: string, teamMembers: string[] = []): Team => {
+    const [players, setPlayers] = useState<Player[]>(teamMembers.map(createTeamPlayer(teamName)))
 
     const methods = useMemo(() => {
         const increasePlayerProp = (playerPropKey: StatsKey) => (playerId: string) => (amountToIncrease: number) => {
@@ -49,21 +70,20 @@ export const useTeamStates = (teamMembers: string[] = []) => {
 
 
     const matchStats = useMemo(() => {
-        const getMatchCounts = (statsKey: StatsKey) =>
-            players.reduce((acc, crt) => {
-                return acc + crt[statsKey]
-            }, 0)
-
-        return {
-            points: getMatchCounts('points'),
-            assistances: getMatchCounts('assistances'),
-            ballSteals: getMatchCounts('ballSteals'),
-            blocks: getMatchCounts('blocks'),
-            rebounds: getMatchCounts('rebounds')
-        }
+        return players.reduce((acc, crt) => {
+                return {
+                    points: acc.points + crt.points,
+                    assistances: acc.assistances + crt.assistances,
+                    ballSteals: acc.ballSteals + crt.ballSteals,
+                    blocks: acc.blocks + crt.blocks,
+                    rebounds: acc.rebounds + crt.rebounds,
+                }
+            }, initialStatsState)
     }, [players])
 
     return {
+        id: teamName,
+        name: teamName,
         players, ...matchStats, ...methods,
     }
 }
