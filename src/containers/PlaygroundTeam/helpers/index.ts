@@ -1,18 +1,7 @@
 import { Team } from "@/hooks/useTeamStates"
-import { useCallback, useMemo, useState } from "react"
-
-const hasOrangeShadow = (flag: boolean) => flag ? 'orange-shadow' : ''
-const flipCurrentState = (setState: React.Dispatch<React.SetStateAction<boolean>>) => () => {
-    setState(crt => !crt)
-}
+import { useCallback } from "react"
 
 export const usePlayground = (team: Team) => {
-    const [revert, setRevert] = useState(false)
-    const amountToChange = useCallback((negative: any, positive: any) => revert ? negative : positive, [revert])
-
-    const [seePlayerStats, setSeePlayerStats] = useState(false)
-    const configLabelToShow = useMemo(() => seePlayerStats ? 'hide' : 'view', [seePlayerStats])
-
     const { id, name,
         increasePoints,
         increaseRebounds,
@@ -37,11 +26,5 @@ export const usePlayground = (team: Team) => {
 
     return {
         getActionHandler, id, name, teamStats, players,
-        revert, seePlayerStats,
-        amountToChange, configLabelToShow,
-        shadowByRevert: hasOrangeShadow(revert), 
-        shadowByStatsView: hasOrangeShadow(seePlayerStats),
-        switchRevert: flipCurrentState(setRevert),
-        switchStatsView: flipCurrentState(setSeePlayerStats)
     }
 }

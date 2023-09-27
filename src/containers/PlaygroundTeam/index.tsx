@@ -1,14 +1,15 @@
 import { Team, getStatsLabel } from '@/hooks/useTeamStates'
 import './index.css'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { usePlayground } from './helpers'
+import { setValueByFlag } from '@/utils/setValueByFlag'
 
-export function PlaygroundTeam({ team }: { team: Team }) {
-  const { getActionHandler, id, name, teamStats, players,
-    seePlayerStats,
-    amountToChange, configLabelToShow, 
-    shadowByRevert, shadowByStatsView,
-    switchRevert ,switchStatsView } = usePlayground(team)
+type PlayGroundTeamProps = { team: Team; seePlayerStats?: boolean, revert?: boolean }
+
+export function PlaygroundTeam({ team, seePlayerStats = false, revert = false }: PlayGroundTeamProps) {
+  const { getActionHandler, id, name, teamStats, players } = usePlayground(team)
+
+  const amountToChange = useCallback(setValueByFlag(revert), [revert])
 
   const teamStatsContainer = useMemo(() => {
     return Object.entries(teamStats).map(([statsKey, value]) => {
@@ -20,13 +21,10 @@ export function PlaygroundTeam({ team }: { team: Team }) {
   }, [teamStats, id])
 
   return <section className='grow-[.4]'>
-    <div className="flex justify-between mb-4">
-      <button
-        className={`self-start btn-config text-orange-400 ${shadowByRevert}`} 
-        onClick={switchRevert}>revert</button>
-      <h1 className='text-center text-2xl font-semibold text-orange-600 capitalize'>{name}</h1>
-      <button className={`self-start btn-config text-orange-400 ${shadowByStatsView}`} onClick={switchStatsView}>{configLabelToShow}</button>
-    </div>
+    <h1
+      className='text-center text-2xl font-semibold text-orange-600 capitalize mb-2'>
+      {name}
+    </h1>
 
     <div>
       <div className="flex justify-between mb-3">
