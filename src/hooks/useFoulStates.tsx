@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useState } from "react";
-import { Player, Team } from "./useTeamStates";
+import { Player } from "./useTeamStates";
 
 type FoulType = {
     commited: string,

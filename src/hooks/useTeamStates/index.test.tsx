@@ -1,5 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
-import { createTeamPlayer, useTeamStates } from './useTeamStates';
+import { useTeamStates } from '.';
+import { createTeamPlayer } from './helpers';
 
 const createPlayer = createTeamPlayer('Team X test')
 const player1 = createPlayer('P1')

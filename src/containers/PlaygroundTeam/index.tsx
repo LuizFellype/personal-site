@@ -1,48 +1,14 @@
 import { Team, getStatsLabel } from '@/hooks/useTeamStates'
 import './index.css'
-import React, { useCallback, useMemo, useState } from 'react'
-
-export const getStatsActionLabel = (statsKey: string) => ({
-  points: '+1',
-  assistances: '',
-  ballSteals: 'Ladrao',
-  blocks: 'Blocks',
-  rebounds: 'Reb',
-}[statsKey])
-
-const hasOrangeShadow = (flag: boolean) => flag ? 'orange-shadow' : ''
-const flipCurrentState = (setState: React.Dispatch<React.SetStateAction<boolean>>) => () => {
-  setState(crt => !crt)
-}
+import React, { useMemo } from 'react'
+import { usePlayground } from './helpers'
 
 export function PlaygroundTeam({ team }: { team: Team }) {
-  const [revert, setRevert] = useState(false)
-  const amountToChange = useCallback((negative: any, positive: any) => revert ? negative : positive, [revert])
-  
-  const [seePlayerStats, setSeePlayerStats] = useState(false)
-  const confgLabelToShow = useMemo(() => seePlayerStats ? 'hide' : 'view', [seePlayerStats])
-
-  const { id, name,
-    increasePoints,
-    increaseRebounds,
-    increaseAssistances,
-    increaseBallSteals,
-    increaseBlocks,
-    players,
-    ...teamStats
-  } = team
-
-  const getActionHandler = (statsKey: string, playerId: string, amount: number) => {
-    const increaseMethod = {
-      points: increasePoints(playerId),
-      rebounds: increaseRebounds(playerId),
-      assistances: increaseAssistances(playerId),
-      ballSteals: increaseBallSteals(playerId),
-      blocks: increaseBlocks(playerId),
-    }[statsKey]
-
-    return () => increaseMethod?.(amount)
-  }
+  const { getActionHandler, id, name, teamStats, players,
+    seePlayerStats,
+    amountToChange, configLabelToShow, 
+    shadowByRevert, shadowByStatsView,
+    switchRevert ,switchStatsView } = usePlayground(team)
 
   const teamStatsContainer = useMemo(() => {
     return Object.entries(teamStats).map(([statsKey, value]) => {
@@ -55,9 +21,11 @@ export function PlaygroundTeam({ team }: { team: Team }) {
 
   return <section className='grow-[.4]'>
     <div className="flex justify-between mb-4">
-      <button className={`self-start btn-config text-orange-400 ${hasOrangeShadow(revert)}`} onClick={flipCurrentState(setRevert)}>revert</button>
+      <button
+        className={`self-start btn-config text-orange-400 ${shadowByRevert}`} 
+        onClick={switchRevert}>revert</button>
       <h1 className='text-center text-2xl font-semibold text-orange-600 capitalize'>{name}</h1>
-      <button className={`self-start btn-config text-orange-400 ${hasOrangeShadow(seePlayerStats)}`} onClick={flipCurrentState(setSeePlayerStats)}>{confgLabelToShow}</button>
+      <button className={`self-start btn-config text-orange-400 ${shadowByStatsView}`} onClick={switchStatsView}>{configLabelToShow}</button>
     </div>
 
     <div>
