@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useState } from "react";
-import { Player } from "./useTeamStates";
 
 type FoulType = {
     commited: string,
@@ -20,27 +19,30 @@ const getPrevFoulIdx = (fouls: FoulType[], commited: string, received: string) =
     return idx
 }
 const increaseFoulByIdx = (fouls: FoulType[], foulIdx: number): FoulType[] => {
-    return fouls.map((foul, idx) => ({ ...foul, amount: idx === foulIdx ? foul.amount + 1 : foul.amount }))                
+    return fouls.map((foul, idx) => ({ ...foul, amount: idx === foulIdx ? foul.amount + 1 : foul.amount }))
 }
+
+export type MomentFoul = { commited?: string } | undefined
 
 export const useFoulStates = () => {
     const [fouls, setFouls] = useState<FoulType[]>([])
     const [freeThrow, setFreeThrow] = useState<FoulType | undefined>()
+    const [currentFoul, setCurrentFoul] = useState<MomentFoul>()
 
-    const addFoul = useCallback((commitedFoulPlayer: Player, receivedFoulPlayer: Player) => {
+    const addFoul = useCallback((commitedFoulPlayerId: string, receivedFoulPlayerId: string) => {
         const updateFouls = () => {
-            const foulIdx = getPrevFoulIdx(fouls, commitedFoulPlayer.id, receivedFoulPlayer.id)
+            const foulIdx = getPrevFoulIdx(fouls, commitedFoulPlayerId, receivedFoulPlayerId)
             if (foulIdx === undefined) {
                 const newFoul = {
-                    commited: commitedFoulPlayer.id,
-                    received: receivedFoulPlayer.id,
+                    commited: commitedFoulPlayerId,
+                    received: receivedFoulPlayerId,
                     amount: 1
                 }
                 const newFouls = [...fouls, newFoul]
-                
+
                 return setFouls(newFouls)
             }
-            
+
             const updatedFouls = increaseFoulByIdx(fouls, foulIdx)
             setFouls(updatedFouls)
 
@@ -51,8 +53,28 @@ export const useFoulStates = () => {
         updateFouls()
     }, [fouls])
 
+    const handleFoul = useCallback((playerId?: string): string | void => {
+        if (!playerId) {
+            return setCurrentFoul(crt => !crt ? {} : undefined)
+        }
+
+        const committedFoulPlayerId = currentFoul?.commited
+        if (!!committedFoulPlayerId) {
+            addFoul(committedFoulPlayerId, playerId)
+            setCurrentFoul(undefined)
+            return committedFoulPlayerId
+        }
+
+        setCurrentFoul({ commited: playerId })
+    }, [setCurrentFoul, addFoul, currentFoul])
+
+
+    const resetFreeThrow = useCallback(() => {
+        setFreeThrow(undefined)
+    }, [setFreeThrow])
+    
     return {
-        fouls, addFoul, freeThrow
+        fouls, handleFoul, freeThrow, currentFoul, resetFreeThrow
     }
 }
 
