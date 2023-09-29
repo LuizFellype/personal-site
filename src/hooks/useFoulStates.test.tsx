@@ -109,7 +109,8 @@ describe('useFoulStates', () => {
     })
 
     test('handleFoul should track fouls history. WHEN commited 2+ should update freeThrow state with players info', () => {
-        const { result: match } = renderHook(() => useFoulStates());
+        const onAddFoul = jest.fn()
+        const { result: match } = renderHook(() => useFoulStates({ onAddFoul }));
         let handleFoulResult;
 
         expect(match.current.fouls.length).toBe(0)
@@ -133,12 +134,15 @@ describe('useFoulStates', () => {
             commited: player1,
         })
         expect(handleFoulResult).toBeUndefined()
-
+        expect(onAddFoul).toHaveBeenCalledTimes(0)
+        
         // select received foul player
         act(() => {
             handleFoulResult = match.current.handleFoul(player3);
         })
-        expect(handleFoulResult).toEqual(player1.id) // make sure "handleFoul" returns committed player ID
+        expect(handleFoulResult).toEqual(player1.id) // returns committed player ID
+        expect(onAddFoul).toHaveBeenCalledTimes(1) // runs callback function
+
         expect(match.current.fouls.length).toBe(1)
         expect(match.current.fouls[0]).toEqual({
             commited: player1.id,

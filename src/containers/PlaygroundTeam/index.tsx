@@ -37,7 +37,13 @@ const PlaygroundTeamContainer = ({
 
   const setFoulClassName = useCallback(getFoulClassName(currentFoul), [currentFoul])
 
-  const handleFoul = useCallback((player: Player) => () => onFoulClick(player), [onFoulClick])
+  const handleFoul = useCallback((player: Player) => () => {
+    if (currentFoul) {
+      onFoulClick(player)
+    }
+  }, [onFoulClick, currentFoul])
+
+  const isFoulOn = useMemo(() => !!currentFoul, [currentFoul])
 
   return <section className='grow-[.4]'>
     <h1
@@ -50,12 +56,12 @@ const PlaygroundTeamContainer = ({
         {teamStatsContainer}
       </div>
 
-      {players.map(player => {
+      {players.map((player, idx) => {
         const { name, id, teamId, ...playerStats } = player
         return (
           <div
             className="flex flex-col items-center justify-between mb-2"
-            key={`${name}_name`}
+            key={`${teamId}_${name}_playerName${idx}`}
           >
             <b
               className={`${setFoulClassName(player)} ${playerNameMarginBottom}`} onClick={handleFoul(player)}>
@@ -63,16 +69,18 @@ const PlaygroundTeamContainer = ({
             </b>
 
             <div className='flex items-center justify-between w-full'>
-              {Object.entries(playerStats).map(([statsKey, value]) => {
+              {Object.entries(playerStats).map(([statsKey, value], idx) => {
                 const actionButtons = (
-                  <div className='flex flex-col' key={`action_${id}_${statsKey}`}>
+                  <div className='flex flex-col' key={`action_${teamId}_${id}_${statsKey}${idx}`}>
                     <button
+                      disabled={isFoulOn}
                       onClick={getActionHandler(statsKey, id, amountToChange(-1, 1))}
                       className="stats-action">
                       {amountToChange(-1, '+1')}
                     </button>
                     {statsKey === 'points' &&
                       <button
+                        disabled={isFoulOn}
                         onClick={getActionHandler(statsKey, id, amountToChange(-2, 2))}
                         className="stats-action mt-1">
                         {amountToChange(-2, '+2')}
@@ -81,14 +89,12 @@ const PlaygroundTeamContainer = ({
                 )
 
                 const playerStats = (
-                  <div className='flex flex-col items-center gap-2' key={`${id}_${statsKey}_value`}>
+                  <div className='flex flex-col items-center gap-2' key={`${teamId}_${id}_${statsKey}_value${idx}`}>
                     <span>{value}</span>
                   </div>
                 )
 
-                return <>
-                  {setByPlayerStatsView(playerStats, actionButtons)}
-                </>
+                return setByPlayerStatsView(playerStats, actionButtons)
               })}
             </div>
           </div>

@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { Player } from "./useTeamStates";
 
-type FoulType = {
+export type FoulType = {
     commited: string,
     received: string,
     amount: number
@@ -25,7 +25,10 @@ const increaseFoulByIdx = (fouls: FoulType[], foulIdx: number): FoulType[] => {
 
 export type MomentFoul = { commited?: Player } | undefined
 
-export const useFoulStates = () => {
+export type UseFoulStatesProps = { onAddFoul?: Function }
+export const useFoulStates = (props: UseFoulStatesProps) => {
+    const { onAddFoul: onAddFoulCallback } = props || {}
+    
     const [fouls, setFouls] = useState<FoulType[]>([])
     const [freeThrow, setFreeThrow] = useState<FoulType | undefined>()
     const [currentFoul, setCurrentFoul] = useState<MomentFoul>()
@@ -63,10 +66,12 @@ export const useFoulStates = () => {
         if (!!committedFoulPlayer && committedFoulPlayer.teamId !== player.teamId) {
             addFoul(committedFoulPlayer.id, player.id)
             setCurrentFoul(undefined)
+            onAddFoulCallback?.()
             return committedFoulPlayer.id
         }
 
         setCurrentFoul({ commited: player })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [setCurrentFoul, addFoul, currentFoul])
 
 

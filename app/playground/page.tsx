@@ -1,5 +1,5 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { PlaygroundTeam } from '@/containers/PlaygroundTeam'
 import { ConfigButtons } from '@/containers/ConfigButtons'
@@ -7,6 +7,8 @@ import { useTeamsCtx } from '@/hooks/TeamsContext'
 
 import { useFoulStates } from '@/hooks/useFoulStates'
 import { useTeamStates } from '@/hooks/useTeamStates'
+import { Modal } from '@/containers/Modal'
+import { FoulFeedbackMessage } from '@/containers/FoulFeedbackMessage'
 
 export default function Playground() {
   const [revert, setRevert] = useState(false)
@@ -21,10 +23,33 @@ export default function Playground() {
   const teamA = useTeamStates(rawTeamA.name, rawTeamA.players)
   const teamB = useTeamStates(rawTeamB.name, rawTeamB.players)
 
-  const { handleFoul, currentFoul, fouls } = useFoulStates()
+  const [isModalOpen, setOpen] = useState(false);
+  const openModal = () => {
+    setOpen(true)
+  }
+
+  const { handleFoul, currentFoul, fouls, freeThrow, resetFreeThrow } = useFoulStates({ onAddFoul: openModal })
+  const closeModal = useCallback(() => {
+    setOpen(false)
+
+    if (!!freeThrow) {
+      resetFreeThrow()
+    }
+  }, [freeThrow])
+
+  const lastFoul = useMemo(() => fouls[fouls.length - 1], [fouls])
 
   return (
     <main className='force-landscap h-full w-full pt-2'>
+      <Modal isOpen={isModalOpen} onClose={closeModal} isTemporary={!freeThrow} >
+        {
+          isModalOpen && <FoulFeedbackMessage
+            isFreeThrow={!!freeThrow}
+            foul={!!freeThrow ? freeThrow : lastFoul}
+          />
+        }
+      </Modal>
+
       <div className='flex justify-between text-black relative'>
         <ConfigButtons
           seePlayerStats={seePlayerStats} revert={revert} setRevert={setRevert} setSeePlayerStats={setSeePlayerStats}

@@ -14,6 +14,25 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  position: relative;
+}
+
+.stats-action:disabled {
+  box-shadow: none;
+  background-color: #7d4ef340;
+}
+
+.stats-action:disabled::before {
+  content: '';
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  left: -1.5px;
+  top: -2px;
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  border-radius: 50%;
+  cursor: not-allowed;
 }
 
 .team-name {
@@ -21,43 +40,47 @@
 }
 
 /* styles related to foul states */
-.possible-foul-offender, .possible-foul-receiver {
+.possible-foul-offender,
+.possible-foul-receiver {
+  cursor: pointer;
   position: relative;
-	box-shadow: 0 0 0 0 rgb(143, 4, 4, .3);
-	transform: scale(1);    
-	animation: pulse 1.5s infinite linear;
+  box-shadow: 0 0 0 0 rgb(143, 4, 4, .3);
+  transform: scale(1);
+  animation: pulse 1.5s infinite linear;
   color: rgb(143, 4, 4);
-  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes pulse {
-	0% {
-		transform: scale(0.95);
+  0% {
+    transform: scale(0.95);
     box-shadow: 0 0 0 0 rgb(143, 4, 4, .1);
-	}
+  }
 
   45% {
-		transform: scale(1.2);
+    transform: scale(1.2);
     box-shadow: 0 2px 1px 0 rgb(143, 4, 4, .1);
-	}
+  }
 
-	60% {
-		transform: scale(1.2);
+  60% {
+    transform: scale(1.2);
     box-shadow: 1px 1px 10px 0 rgb(143, 4, 4, .3);
-	}
+  }
 
-	100% {
-		transform: scale(0.95);
+  100% {
+    transform: scale(0.95);
     box-shadow: 0 0 0 0 rgb(143, 4, 4, 0);
-	}
+  }
 }
 
 .foul-offender {
+  cursor: pointer;
   color: rgb(143, 4, 4);
   font-size: 1.1rem;
 }
+
 .foul-offender::before {
   content: '☆';
-  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   animation: pulse 2s infinite linear;
 }
