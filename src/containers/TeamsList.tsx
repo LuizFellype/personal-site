@@ -10,7 +10,7 @@ export function TeamsList() {
                 const isSelected = selectedTeams.includes(rawTeam.id) ? 'stroke-sky-500' : ''
                 return <div className='rounded-tr-4xl bg-white px-5 pb-4 pt-2 rounded-2xl shadow-2xl' key={rawTeam.id}>
                     <div className='flex justify-between items-center' onClick={() => selectTeam(rawTeam.id)}>
-                        <svg className={`h-6 w-6 flex-none fill-sky-100 ${isSelected} stroke-2`} stroke-linecap="round" strokeLinejoin="round">
+                        <svg className={`h-6 w-6 flex-none fill-sky-100 ${isSelected} stroke-2`} strokeLinecap="round" strokeLinejoin="round">
                             <circle cx="12" cy="12" r="8" />
                             <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
                         </svg>

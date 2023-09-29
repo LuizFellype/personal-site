@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from "react";
+import { Player } from "./useTeamStates";
 
 type FoulType = {
     commited: string,
@@ -22,7 +23,7 @@ const increaseFoulByIdx = (fouls: FoulType[], foulIdx: number): FoulType[] => {
     return fouls.map((foul, idx) => ({ ...foul, amount: idx === foulIdx ? foul.amount + 1 : foul.amount }))
 }
 
-export type MomentFoul = { commited?: string } | undefined
+export type MomentFoul = { commited?: Player } | undefined
 
 export const useFoulStates = () => {
     const [fouls, setFouls] = useState<FoulType[]>([])
@@ -53,25 +54,26 @@ export const useFoulStates = () => {
         updateFouls()
     }, [fouls])
 
-    const handleFoul = useCallback((playerId?: string): string | void => {
-        if (!playerId) {
+    const handleFoul = useCallback((player?: Player): string | void => {
+        if (!player) {
             return setCurrentFoul(crt => !crt ? {} : undefined)
         }
 
-        const committedFoulPlayerId = currentFoul?.commited
-        if (!!committedFoulPlayerId) {
-            addFoul(committedFoulPlayerId, playerId)
+        const committedFoulPlayer = currentFoul?.commited
+        if (!!committedFoulPlayer && committedFoulPlayer.teamId !== player.teamId) {
+            addFoul(committedFoulPlayer.id, player.id)
             setCurrentFoul(undefined)
-            return committedFoulPlayerId
+            return committedFoulPlayer.id
         }
 
-        setCurrentFoul({ commited: playerId })
+        setCurrentFoul({ commited: player })
     }, [setCurrentFoul, addFoul, currentFoul])
 
 
     const resetFreeThrow = useCallback(() => {
         setFreeThrow(undefined)
     }, [setFreeThrow])
+    
     
     return {
         fouls, handleFoul, freeThrow, currentFoul, resetFreeThrow

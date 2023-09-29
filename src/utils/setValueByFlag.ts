@@ -1,1 +1,1 @@
-export const setValueByFlag = (flag: boolean) => (trueValue: any, falseValue: any) => flag ? trueValue : falseValue
+export const setValueByFlag = (flag: boolean) => (trueValue: any, falseValue = '' as any) => flag ? trueValue : falseValue

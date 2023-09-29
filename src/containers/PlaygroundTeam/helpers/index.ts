@@ -1,4 +1,6 @@
-import { Team } from "@/hooks/useTeamStates"
+import { MomentFoul } from "@/hooks/useFoulStates"
+import { Player, Team } from "@/hooks/useTeamStates"
+import { setValueByFlag } from "@/utils/setValueByFlag"
 import { useCallback } from "react"
 
 export const usePlayground = (team: Team) => {
@@ -26,5 +28,33 @@ export const usePlayground = (team: Team) => {
 
     return {
         getActionHandler, id, name, teamStats, players,
+    }
+}
+
+
+export const foulClasses = {
+    possibleOffender: 'possible-foul-offender',
+    offender: 'foul-offender',
+    possibleReceiver: 'possible-foul-receiver',
+}
+export const getFoulClassName = (currentFoul: MomentFoul) => {
+    return (player: Player) => {
+        const isFoulOn = !!currentFoul
+        
+        if (!isFoulOn) return ''
+
+        const isOffenderSelected = !!currentFoul?.commited
+        const isPossibleReceiver = isOffenderSelected && currentFoul?.commited?.teamId !== player.teamId
+
+        if (isPossibleReceiver) return foulClasses.possibleReceiver
+
+        const isPlayerOffender = currentFoul?.commited?.id === player.id
+
+        const setWhenOffenderWasSelected = setValueByFlag(isOffenderSelected)
+        const setFoulOffenderClass = setValueByFlag(isPlayerOffender)
+
+        const foulClassName = `${setWhenOffenderWasSelected(setFoulOffenderClass(foulClasses.offender), foulClasses.possibleOffender)}`
+
+        return foulClassName
     }
 }

@@ -1,0 +1,25 @@
+.btn-config {
+    backface-visibility: hidden;
+    border-radius: 20%;
+    box-sizing: border-box;
+    border: .125rem solid rgb(234, 171, 53);
+    cursor: pointer;
+    display: inline-block;
+    font-family: Circular, Helvetica, sans-serif;
+    line-height: 1;
+    padding: 2px 5px;
+    position: relative;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+
+
+.orange-shadow {
+    box-shadow: rgba(234, 171, 53, 0.322) 3px 3px 0 0;
+}
+.red-shadow {
+    box-shadow: rgb(143, 4, 4) 3px 3px 0 0;
+}

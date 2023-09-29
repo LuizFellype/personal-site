@@ -16,8 +16,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className={inter.className} suppressHydrationWarning={true}>
         <TeamsProvider><div className='min-h-screen bg-purple-200 px-4'>{children}</div></TeamsProvider>
       </body>
     </html>

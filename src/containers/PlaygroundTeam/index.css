@@ -1,4 +1,4 @@
-button.stats-action {
+.stats-action {
   background-color: #7d4ef363;
   border: 2px solid #422800;
   border-radius: 50%;
@@ -16,27 +16,48 @@ button.stats-action {
   touch-action: manipulation;
 }
 
-.orange-shadow {
-  box-shadow: rgba(234, 171, 53, 0.322) 3px 3px 0 0;
-}
-
 .team-name {
   color: #b26a02
 }
 
-.btn-config {
-  backface-visibility: hidden;
-  border-radius: 20%;
-  box-sizing: border-box;
-  border: .125rem solid rgb(234, 171, 53);
-  cursor: pointer;
-  display: inline-block;
-  font-family: Circular, Helvetica, sans-serif;
-  line-height: 1;
-  padding: 2px 5px;
+/* styles related to foul states */
+.possible-foul-offender, .possible-foul-receiver {
   position: relative;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+	box-shadow: 0 0 0 0 rgb(143, 4, 4, .3);
+	transform: scale(1);    
+	animation: pulse 1.5s infinite linear;
+  color: rgb(143, 4, 4);
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgb(143, 4, 4, .1);
+	}
+
+  45% {
+		transform: scale(1.2);
+    box-shadow: 0 2px 1px 0 rgb(143, 4, 4, .1);
+	}
+
+	60% {
+		transform: scale(1.2);
+    box-shadow: 1px 1px 10px 0 rgb(143, 4, 4, .3);
+	}
+
+	100% {
+		transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgb(143, 4, 4, 0);
+	}
+}
+
+.foul-offender {
+  color: rgb(143, 4, 4);
+  font-size: 1.1rem;
+}
+.foul-offender::before {
+  content: '☆';
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  animation: pulse 2s infinite linear;
 }

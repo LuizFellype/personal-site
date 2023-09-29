@@ -24,10 +24,6 @@ export default function CreateTeamForm(props: { onSubmit: (data: TeamFormData) =
     });
 
     async function onSubmit(data: TeamFormData) {
-        console.log(isSubmitting);
-        console.log({ data });
-        // Replace this with a server action or fetch an API endpoint to authenticate
-
         props.onSubmit(data)
         reset()
     }
