@@ -33,7 +33,7 @@ export const initialStatsState: MatchStats = {
 }
 
 export const getStatsLabel = (statsKey: string) => ({
-    points: 'Pts',
+    points: 'Pntos',
     assistances: 'Assis',
     ballSteals: 'Ladrao',
     blocks: 'Blocks',

@@ -26,7 +26,7 @@ const ConfigButtonsContainer = ({
         onFoulClick()
     }, [onFoulClick])
 
-    return <div className="flex justify-between absolute w-full">
+    return <div className="flex justify-between w-full landscape:absolute md:absolute">
         <button
             className={`self-start btn-config text-orange-400 ${hasOrangeShadow(revert)}`}
             onClick={flipCurrentState(setRevert)}>Revert</button>

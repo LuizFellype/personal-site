@@ -40,7 +40,7 @@ export default function Playground() {
   const lastFoul = useMemo(() => fouls[fouls.length - 1], [fouls])
 
   return (
-    <main className='force-landscap h-full w-full pt-2'>
+    <main className='h-full w-full pt-2'>
       <Modal isOpen={isModalOpen} onClose={closeModal} isTemporary={!freeThrow} >
         {
           isModalOpen && <FoulFeedbackMessage
@@ -50,18 +50,21 @@ export default function Playground() {
         }
       </Modal>
 
-      <div className='flex justify-between text-black relative'>
+
+      <div className='flex flex-col landscape:flex-row md:flex-row flex-wrap justify-between text-black relative gap-2'>
         <ConfigButtons
           seePlayerStats={seePlayerStats} revert={revert} setRevert={setRevert} setSeePlayerStats={setSeePlayerStats}
           onFoulClick={handleFoul}
           isFoulOn={!!currentFoul}
         />
+
         <PlaygroundTeam
           team={teamA}
           seePlayerStats={seePlayerStats}
           revert={revert}
           onFoulClick={handleFoul}
           currentFoul={currentFoul}
+          wrapperClass="landscape:pr-3 md:pr-3"
         />
         <PlaygroundTeam
           team={teamB}
@@ -69,6 +72,7 @@ export default function Playground() {
           revert={revert}
           onFoulClick={handleFoul}
           currentFoul={currentFoul}
+          wrapperClass="landscape:pl-3 md:pl-3"
         />
       </div>
     </main>

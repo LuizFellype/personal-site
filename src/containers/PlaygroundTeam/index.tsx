@@ -11,12 +11,14 @@ type PlayGroundTeamProps = {
   team: Team; seePlayerStats?: boolean, revert?: boolean
   onFoulClick: (player?: Player) => string | void
   currentFoul: MomentFoul;
+  wrapperClass?: string
 }
 
 const PlaygroundTeamContainer = ({
   team, seePlayerStats = false, revert = false,
   onFoulClick,
-  currentFoul
+  currentFoul,
+  wrapperClass = ''
 }: PlayGroundTeamProps) => {
   const { getActionHandler, id: teamId, name, teamStats, players } = usePlayground(team)
 
@@ -45,13 +47,13 @@ const PlaygroundTeamContainer = ({
 
   const isFoulOn = useMemo(() => !!currentFoul, [currentFoul])
 
-  return <section className='grow-[.4]'>
+  return <section className={`flex-1`}>
     <h1
       className='text-center text-2xl font-semibold text-orange-600 capitalize mb-2'>
       {name}
     </h1>
 
-    <div>
+    <div className={wrapperClass}>
       <div className="flex justify-between mb-3">
         {teamStatsContainer}
       </div>

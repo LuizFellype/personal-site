@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={inter.className} suppressHydrationWarning={true}>
-        <TeamsProvider><div className='min-h-screen bg-purple-200 px-4'>{children}</div></TeamsProvider>
+        <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider>
       </body>
     </html>
   )

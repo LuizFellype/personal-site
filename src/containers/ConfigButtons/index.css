@@ -15,11 +15,10 @@
     touch-action: manipulation;
 }
 
-
-
 .orange-shadow {
     box-shadow: rgba(234, 171, 53, 0.322) 3px 3px 0 0;
 }
+
 .red-shadow {
     box-shadow: rgb(143, 4, 4) 3px 3px 0 0;
 }
