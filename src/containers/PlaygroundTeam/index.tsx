@@ -9,14 +9,14 @@ import './index.css'
 
 type PlayGroundTeamProps = {
   team: Team; seePlayerStats?: boolean, revert?: boolean
-  onFoulClick: (player?: Player) => string | void
-  currentFoul: MomentFoul;
+  onFoulClick?: (player?: Player) => string | void
+  currentFoul?: MomentFoul;
   wrapperClass?: string
 }
 
 const PlaygroundTeamContainer = ({
   team, seePlayerStats = false, revert = false,
-  onFoulClick,
+  onFoulClick = () => {},
   currentFoul,
   wrapperClass = ''
 }: PlayGroundTeamProps) => {

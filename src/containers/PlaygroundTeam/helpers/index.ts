@@ -15,15 +15,17 @@ export const usePlayground = (team: Team) => {
     } = team
 
     const getActionHandler = useCallback((statsKey: string, playerId: string, amount: number) => {
-        const increaseMethod = {
-            points: increasePoints(playerId),
-            rebounds: increaseRebounds(playerId),
-            assistances: increaseAssistances(playerId),
-            ballSteals: increaseBallSteals(playerId),
-            blocks: increaseBlocks(playerId),
-        }[statsKey]
-
-        return () => increaseMethod?.(amount)
+        return () => {
+            const increaseMethod = {
+                points: increasePoints?.(playerId),
+                rebounds: increaseRebounds?.(playerId),
+                assistances: increaseAssistances?.(playerId),
+                ballSteals: increaseBallSteals?.(playerId),
+                blocks: increaseBlocks?.(playerId),
+            }[statsKey]
+    
+            increaseMethod?.(amount)
+        }
     }, [increaseAssistances, increaseBallSteals, increaseBlocks, increasePoints, increaseRebounds])
 
     return {
