@@ -9,10 +9,21 @@ import { useFoulStates } from '@/hooks/useFoulStates'
 import { useTeamStates } from '@/hooks/useTeamStates'
 import { Modal } from '@/containers/Modal'
 import { FoulFeedbackMessage } from '@/containers/FoulFeedbackMessage'
+import { STORAGE_KEYS, getFromStorage, setInStorage } from '@/utils/localStorage'
+import { useRouter } from 'next/navigation'
+import { HistoryMatchType } from '@/types/teams'
+
+const classes = {
+  home: 'cursor-pointer bg-transparent px-4 py-2 mx-8 mt-3 text-center font-semibold text-orange-400 border-dotted border-orange-400 border-2 p-1 rounded-md hover:$bg-gray-400 focus:outline-none focus:ring focus:ring-blue-200 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70',
+  regularBottomButton: `cursor-pointer rounded px-4 py-2 mx-8 mt-3 text-center font-semibold text-white focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70`,
+}
 
 export default function Playground() {
+  const router = useRouter()
   const [revert, setRevert] = useState(false)
   const [seePlayerStats, setSeePlayerStats] = useState(false)
+
+  const [isConfirmingMatchEnd, setIsConfirmingMatchEnd] = useState(false)
 
   const { selectedTeams, teams } = useTeamsCtx()
 
@@ -38,6 +49,22 @@ export default function Playground() {
   }, [freeThrow])
 
   const lastFoul = useMemo(() => fouls[fouls.length - 1], [fouls])
+
+  const handleEndMatch = (confirmation = false) => () => {
+    if (isConfirmingMatchEnd) {
+      if (!confirmation) {
+        return setIsConfirmingMatchEnd(false)
+      }
+      const matchFullState: HistoryMatchType = { teamA, teamB, fouls, endedAt: new Date().getTime() }
+      const savedMatches = getFromStorage('matches', [])
+      const matches = [...savedMatches, matchFullState]
+      setInStorage(STORAGE_KEYS.matchesList, matches)
+      router.push('/history')
+      return
+    }
+
+    setIsConfirmingMatchEnd(true)
+  }
 
   return (
     <main className='h-full w-full pt-2'>
@@ -74,7 +101,40 @@ export default function Playground() {
           currentFoul={currentFoul}
           wrapperClass="landscape:pl-3 md:pl-3"
         />
+
       </div>
+      {
+        (!!teamA.points || !!teamB.points) && <div className='flex justify-around flex-wrap mt-4 relative'>
+          {isConfirmingMatchEnd && (
+            <button
+              type="button"
+              disabled={selectedTeams.length !== 2}
+              className={classes.home}
+              onClick={() => router.push('/')}
+            >
+              Go Home
+            </button>
+          )}
+
+          <button
+            type="submit"
+            disabled={selectedTeams.length !== 2}
+            className={`${classes.regularBottomButton} ${isConfirmingMatchEnd ? 'bg-teal-600' : 'bg-purple-500'} hover:${isConfirmingMatchEnd ? 'bg-teal-500' : 'bg-purple-400'}`}
+            onClick={handleEndMatch(true)}
+          >
+            {isConfirmingMatchEnd ? 'Salvar' : 'Finalizar Partida'}
+          </button>
+          {isConfirmingMatchEnd && (<button
+            type="button"
+            disabled={selectedTeams.length !== 2}
+            className={`${classes.regularBottomButton} bg-gray-500 hover:bg-gray-400`}
+            onClick={handleEndMatch(false)}
+          >
+            Cancelar
+          </button>
+          )}
+        </div>
+      }
     </main>
   )
 }
