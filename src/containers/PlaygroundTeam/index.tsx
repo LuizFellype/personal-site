@@ -75,14 +75,14 @@ const PlaygroundTeamContainer = ({
                 const actionButtons = (
                   <div className='flex flex-col' key={`action_${teamId}_${id}_${statsKey}${idx}`}>
                     <button
-                      disabled={isFoulOn}
+                      disabled={isFoulOn || revert && value === 0}
                       onClick={getActionHandler(statsKey, id, amountToChange(-1, 1))}
                       className="stats-action">
                       {amountToChange(-1, '+1')}
                     </button>
                     {statsKey === 'points' &&
                       <button
-                        disabled={isFoulOn}
+                        disabled={isFoulOn || revert && value < 2}
                         onClick={getActionHandler(statsKey, id, amountToChange(-2, 2))}
                         className="stats-action mt-1">
                         {amountToChange(-2, '+2')}
