@@ -1,11 +1,11 @@
 'use client'
 
-import NavigationHeader from '@/containers/NavitationHeader'
+import DynamicButtons from '@/containers/DynamicButtons'
 import { PlaygroundTeam } from '@/containers/PlaygroundTeam'
 import { HistoryMatchType } from '@/types/teams'
 import { STORAGE_KEYS, getFromStorage, setInStorage } from '@/utils/localStorage'
 import { useRouter } from 'next/navigation'
-import { MouseEventHandler, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
 const getFormattedTime = (dateTime: number) => {
     const formatedDate = new Date(dateTime)
@@ -74,18 +74,17 @@ export default function History() {
 
     const handleDeleteMatch = useCallback((matchEndedAt: number) => {
         const updatedList = matches.filter(({ endedAt }) => endedAt !== matchEndedAt)
-        console.log({ updatedList, matchEndedAt })
         updateHistory(updatedList)
     }, [matches])
 
     return (
         <main className=''>
-            <NavigationHeader buttons={[{
+            <DynamicButtons buttons={[{
                 onClick: () => router.push('/'), label: 'Home'
             }, {
                 onClick: () => {
                     updateHistory([])
-                }, label: 'Limpar'
+                }, label: 'Limpar', disabled: !matches?.length
             }]} absolute={false}/>
 
             {

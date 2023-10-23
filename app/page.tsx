@@ -1,7 +1,7 @@
 'use client'
 
 import CreateTeamForm from '@/containers/CreateTeamForm'
-import NavigationHeader from '@/containers/NavitationHeader'
+import DynamicButtons from '@/containers/DynamicButtons'
 import { TeamsList } from '@/containers/TeamsList'
 import { useTeamsCtx } from '@/hooks/TeamsContext'
 import { useRouter } from 'next/navigation'
@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <main >
-      <NavigationHeader buttons={[{
+      <DynamicButtons buttons={[{
         onClick: () => router.push('/history'), label: 'History'
       }]} />
       <CreateTeamForm onSubmit={addTeam} />
