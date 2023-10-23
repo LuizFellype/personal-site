@@ -3,9 +3,9 @@
 import NavigationHeader from '@/containers/NavitationHeader'
 import { PlaygroundTeam } from '@/containers/PlaygroundTeam'
 import { HistoryMatchType } from '@/types/teams'
-import { STORAGE_KEYS, getFromStorage } from '@/utils/localStorage'
+import { STORAGE_KEYS, getFromStorage, setInStorage } from '@/utils/localStorage'
 import { useRouter } from 'next/navigation'
-import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { MouseEventHandler, memo, useCallback, useEffect, useMemo, useState } from 'react'
 
 const getFormattedTime = (dateTime: number) => {
     const formatedDate = new Date(dateTime)
@@ -13,19 +13,29 @@ const getFormattedTime = (dateTime: number) => {
     const simpleHours = formatedDate.getHours()
     const simpleMinutes = formatedDate.getMinutes()
 
-    return { 
-        hours: simpleHours < 10 ? `0${simpleHours}` : simpleHours, 
+    return {
+        hours: simpleHours < 10 ? `0${simpleHours}` : simpleHours,
         minutes: simpleMinutes < 10 ? `0${simpleMinutes}` : simpleMinutes,
     }
 }
 // eslint-disable-next-line react/display-name
-const HistoryAccordion = memo(({ teamA, teamB, endedAt }: HistoryMatchType) => {
+const HistoryAccordion = memo(({ teamA, teamB, endedAt, onDeleteClick }: HistoryMatchType & { onDeleteClick: (endedAt: number) => void }) => {
+    const [isConfirmingDelete, setIsConfirmingDelete] = useState(false)
     const { hours, minutes } = useMemo(() => getFormattedTime(endedAt), [endedAt])
 
+    const handleDeleteClick = () => {
+        if (isConfirmingDelete) {
+            onDeleteClick(endedAt)
+            setIsConfirmingDelete(false)
+        }
+        setIsConfirmingDelete(true)
+    }
+
     const header = <summary className='text-center'>
-        <b>{teamA.id}</b> <span>{teamA.points}</span> x 
+        <b>{teamA.id}</b> <span>{teamA.points}</span> x
         <span> {teamB.points}</span> <b>{teamB.id}</b>
         <i className='text-xs relative bottom-1'> {hours}:{minutes}</i>
+        <button className={` ${isConfirmingDelete ? 'text-green-500' : 'text-purple-500'} ml-2 text-xs`} onClick={handleDeleteClick}>{isConfirmingDelete ? 'Confirmar' : 'Delete'}</button>
     </summary>
 
     return <details className='text-black'>
@@ -55,12 +65,29 @@ export default function History() {
         setMatches(history)
     }, [])
 
+    const updateHistory = (updatedList: HistoryMatchType[]) => {
+        setMatches(updatedList)
+        setInStorage(STORAGE_KEYS.matchesList, updatedList)
+    }
+
+    const handleDeleteMatch = useCallback((matchEndedAt: number) => {
+        const updatedList = matches.filter(({ endedAt }) => endedAt !== matchEndedAt)
+        console.log({ updatedList, matchEndedAt })
+        updateHistory(updatedList)
+    }, [matches])
+
     return (
         <main className=''>
-            <NavigationHeader onClick={() => router.push('/')} label='Home' />
+            <NavigationHeader buttons={[{
+                onClick: () => router.push('/'), label: 'Home'
+            }, {
+                onClick: () => {
+                    updateHistory([])
+                }, label: 'Clean History'
+            }]} absolute={false}/>
 
             {
-                matches.map(match => <HistoryAccordion key={`${match.teamA.id}_${match.teamB.id}_${match.endedAt}`} {...match} />)
+                matches.map(match => <HistoryAccordion key={`${match.teamA.id}_${match.teamB.id}_${match.endedAt}`} {...match} onDeleteClick={handleDeleteMatch} />)
             }
         </main>
     )

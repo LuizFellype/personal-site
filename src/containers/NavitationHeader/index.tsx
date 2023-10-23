@@ -1,12 +1,12 @@
 import { MouseEventHandler, memo } from 'react';
 
-function NavigationHeader({onClick, label}: {onClick: MouseEventHandler<HTMLButtonElement>; label: string}) {
+function NavigationHeader({ buttons, absolute = true }: { buttons: { onClick: MouseEventHandler<HTMLButtonElement>; label: string }[], absolute?: boolean }) {
     return (
-        <div>
-            <button
-                className={`text-orange-400 border-dotted border-orange-400 border-2 p-1 rounded-md absolute`}
+        <div className='flex justify-between w-full'>
+            {buttons.map(({ onClick, label }) => <button key={label}
+                className={`text-orange-400 border-dotted border-orange-400 border-2 p-1 rounded-md ${absolute && 'absolute'}`}
                 onClick={onClick}
-            >{label}</button>
+            >{label}</button>)}
         </div>
     )
 }

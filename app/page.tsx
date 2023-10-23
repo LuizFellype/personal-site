@@ -7,14 +7,15 @@ import { useTeamsCtx } from '@/hooks/TeamsContext'
 import { useRouter } from 'next/navigation'
 
 export default function Home() {
-  const {addTeam} = useTeamsCtx()
+  const { addTeam } = useTeamsCtx()
   const router = useRouter()
 
 
   return (
     <main >
-      <NavigationHeader onClick={() => router.push('/history')} label='History' />
-
+      <NavigationHeader buttons={[{
+        onClick: () => router.push('/history'), label: 'History'
+      }]} />
       <CreateTeamForm onSubmit={addTeam} />
 
       <TeamsList />
