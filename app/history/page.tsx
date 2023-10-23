@@ -19,7 +19,7 @@ const getFormattedTime = (dateTime: number) => {
     }
 }
 // eslint-disable-next-line react/display-name
-const HistoryAccordion = memo(({ teamA, teamB, endedAt, onDeleteClick }: HistoryMatchType & { onDeleteClick: (endedAt: number) => void }) => {
+const HistoryAccordion = memo(({ teamA, teamB, endedAt, onDeleteClick, fouls }: HistoryMatchType & { onDeleteClick: (endedAt: number) => void }) => {
     const [isConfirmingDelete, setIsConfirmingDelete] = useState(false)
     const { hours, minutes } = useMemo(() => getFormattedTime(endedAt), [endedAt])
 
@@ -46,11 +46,13 @@ const HistoryAccordion = memo(({ teamA, teamB, endedAt, onDeleteClick }: History
                 team={teamA}
                 seePlayerStats
                 wrapperClass="landscape:pr-3 md:pr-3"
+                fouls={fouls}
             />
             <PlaygroundTeam
                 team={teamB}
                 seePlayerStats
                 wrapperClass="landscape:pl-3 md:pl-3"
+                fouls={fouls}
             />
         </div>
     </details>

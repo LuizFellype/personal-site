@@ -84,4 +84,3 @@ export const useFoulStates = (props: UseFoulStatesProps) => {
         fouls, handleFoul, freeThrow, currentFoul, resetFreeThrow
     }
 }
-
