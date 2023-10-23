@@ -85,12 +85,13 @@ export default function History() {
             }, {
                 onClick: () => {
                     updateHistory([])
-                }, label: 'Clean History'
+                }, label: 'Limpar'
             }]} absolute={false}/>
 
             {
                 matches.map(match => <HistoryAccordion key={`${match.teamA.id}_${match.teamB.id}_${match.endedAt}`} {...match} onDeleteClick={handleDeleteMatch} />)
             }
+            {!matches.length && <div className='text-center text-orange-600 text-md tracking-widest'><b>Nenhuma partida salva.</b></div>}
         </main>
     )
 }
