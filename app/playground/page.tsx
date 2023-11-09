@@ -12,6 +12,7 @@ import { FoulFeedbackMessage } from '@/containers/FoulFeedbackMessage'
 import { STORAGE_KEYS, getFromStorage, setInStorage } from '@/utils/localStorage'
 import { useRouter } from 'next/navigation'
 import { HistoryMatchType } from '@/types/teams'
+import { usePreventRefresh } from '@/hooks/usePreventRefresh'
 
 const classes = {
   home: 'cursor-pointer bg-transparent px-4 py-2 mx-8 mt-3 text-center font-semibold text-orange-400 border-dotted border-orange-400 border-2 p-1 rounded-md hover:$bg-gray-400 focus:outline-none focus:ring focus:ring-blue-200 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70',
@@ -19,6 +20,8 @@ const classes = {
 }
 
 export default function Playground() {
+  usePreventRefresh()
+  
   const router = useRouter()
   const [revert, setRevert] = useState(false)
   const [seePlayerStats, setSeePlayerStats] = useState(false)
