@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from "react";
+import { MutableRefObject, useCallback, useEffect, useRef, useState } from "react";
 import { Player } from "./useTeamStates";
 
 export type FoulType = {
@@ -25,11 +25,20 @@ const increaseFoulByIdx = (fouls: FoulType[], foulIdx: number): FoulType[] => {
 
 export type MomentFoul = { commited?: Player } | undefined
 
-export type UseFoulStatesProps = { onAddFoul?: Function }
-export const useFoulStates = (props: UseFoulStatesProps) => {
-    const { onAddFoul: onAddFoulCallback } = props || {}
+export type UseFoulStatesProps = { onAddFoul?: Function; defaultFouls?: FoulType[] }
+export const useFoulStates = (props: UseFoulStatesProps | undefined) => {
+    const { onAddFoul: onAddFoulCallback, defaultFouls = []} = props || {}
     
-    const [fouls, setFouls] = useState<FoulType[]>([])
+    const [fouls, setFouls] = useState<FoulType[]>(defaultFouls)
+    const defaultHasUpdatedRef = useRef<boolean>(false)
+
+    useEffect(() => {
+        if (!!defaultFouls?.length && !defaultHasUpdatedRef.current) {
+            setFouls(defaultFouls)
+            defaultHasUpdatedRef.current = true
+        }
+    }, [defaultFouls])
+
     const [freeThrow, setFreeThrow] = useState<FoulType | undefined>()
     const [currentFoul, setCurrentFoul] = useState<MomentFoul>()
 

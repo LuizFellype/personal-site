@@ -14,7 +14,8 @@ export const usePreventRefresh = (teamA: Team, teamB: Team, fouls: FoulType[]) =
     useEffect(() => {
         teamARef.current = teamA
         teamBRef.current = teamB
-    }, [teamA, teamB]);
+        foulsRef.current = fouls
+    }, [teamA, teamB, fouls]);
 
     useEffect(() => {
       const beforeUnloadHandler = (event: any) => {

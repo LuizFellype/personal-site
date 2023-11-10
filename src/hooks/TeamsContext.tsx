@@ -1,6 +1,6 @@
 'use client'
 import { TeamFormData } from '@/containers/CreateTeamForm/zodSchema/teamForm';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Player, Team, createTeamPlayer } from './useTeamStates';
 import { setupSession } from '@/utils/localStorage';
 import { FoulType } from './useFoulStates';
@@ -84,28 +84,32 @@ export function TeamsProvider(props: { children: React.ReactNode }) {
         setTeams(crtTeams => crtTeams.filter(team => team.id !== id))
     }, [setTeams])
 
-    
+
     const selectTeam = useCallback((teamId: string) => {
         setSelectedTeams(crtSelectedTeamsId => {
             if (crtSelectedTeamsId.includes(teamId)) {
                 return crtSelectedTeamsId.filter(id => id !== teamId)
             }
-            
+
             if (crtSelectedTeamsId.length >= 2) {
                 return [crtSelectedTeamsId[1], teamId]
             }
-            
+
             return [...crtSelectedTeamsId, teamId]
         })
     }, [setSelectedTeams])
-    
+
     const resetOnGoingMatchState = useCallback(() => {
         setOnGoingMatchStates(undefined)
         session.remove(session.keys.onGoingMatchState)
     }, [])
 
+
+    const state = useMemo(() => {
+        return { teams, selectedTeams, onGoingMatchStates, addTeam, deleteTeam, selectTeam, resetOnGoingMatchState }
+    }, [teams, selectedTeams, onGoingMatchStates, addTeam, deleteTeam, selectTeam, resetOnGoingMatchState])
     return (
-        <TeamsContext.Provider value={{ teams, selectedTeams, onGoingMatchStates, addTeam, deleteTeam, selectTeam, resetOnGoingMatchState }}>
+        <TeamsContext.Provider value={state}>
             {props.children}
         </TeamsContext.Provider>
     );

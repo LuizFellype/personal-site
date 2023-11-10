@@ -41,11 +41,13 @@ export default function Playground() {
   const teamB = useTeamStates(rawTeamB.name, rawTeamB.players)
 
   const [isModalOpen, setOpen] = useState(false);
-  const openModal = () => {
+  const openModal = useCallback(() => {
     setOpen(true)
-  }
+  }, [])
 
-  const { handleFoul, currentFoul, fouls, freeThrow, resetFreeThrow } = useFoulStates({ onAddFoul: openModal })
+  const foulsParams = useMemo(() => ({ onAddFoul: openModal, defaultFouls: onGoingMatchStates?.fouls }), [openModal, onGoingMatchStates]);
+  const { handleFoul, currentFoul, fouls, freeThrow, resetFreeThrow } = useFoulStates(foulsParams)
+  
   usePreventRefresh(teamA, teamB, fouls)
 
   const closeModal = useCallback(() => {
@@ -57,7 +59,6 @@ export default function Playground() {
   }, [freeThrow])
 
   const lastFoul = useMemo(() => fouls[fouls.length - 1], [fouls])
-
   const handleEndMatch = (confirmation = false) => () => {
     if (isConfirmingMatchEnd) {
       if (!confirmation) {
@@ -121,7 +122,6 @@ export default function Playground() {
               disabled={selectedTeams.length !== 2}
               className={classes.home}
               onClick={() => {
-                resetOnGoingMatchState()
                 router.push('/')
               }}
             >

@@ -5,11 +5,15 @@ import DynamicButtons from '@/containers/DynamicButtons'
 import { TeamsList } from '@/containers/TeamsList'
 import { useTeamsCtx } from '@/hooks/TeamsContext'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function Home() {
-  const { addTeam } = useTeamsCtx()
+  const { addTeam, resetOnGoingMatchState } = useTeamsCtx()
   const router = useRouter()
 
+  useEffect(() => {
+    resetOnGoingMatchState()
+  }, [])
 
   return (
     <main >

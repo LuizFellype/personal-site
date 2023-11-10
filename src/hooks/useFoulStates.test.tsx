@@ -42,6 +42,16 @@ const setFoulFreeThrow = (match: { current: any; }) => {
 }
 
 describe('useFoulStates', () => {
+    test('default fouls state should be the one from props', () => {
+        const { result: match } = renderHook(() => useFoulStates({
+            defaultFouls: [{
+                amount: 1, commited: "Luiz", received: "Drew"
+            }]
+        }));
+
+        expect(match.current.fouls.length).toBe(1)
+        
+    })
     test('Should update only currentFoul.commited state when try to add foul to teammates', () => {
         const { result: match } = renderHook(() => useFoulStates());
 
@@ -135,7 +145,7 @@ describe('useFoulStates', () => {
         })
         expect(handleFoulResult).toBeUndefined()
         expect(onAddFoul).toHaveBeenCalledTimes(0)
-        
+
         // select received foul player
         act(() => {
             handleFoulResult = match.current.handleFoul(player3);
@@ -231,12 +241,12 @@ describe('useFoulStates', () => {
             amount: 1
         })
         expect(match.current.freeThrow).toBeUndefined()
-        
+
         expect(match.current.currentFoul).toBeUndefined()
-        
+
         const addP1FreeThrowFoul = setFoulFreeThrow(match)
         addP1FreeThrowFoul(2)
-        
+
         act(() => {
             match.current.resetFreeThrow()
         })
