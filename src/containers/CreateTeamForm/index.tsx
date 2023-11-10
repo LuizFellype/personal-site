@@ -116,13 +116,3 @@ export default function CreateTeamForm(props: { onSubmit: (data: TeamFormData) =
         </div >
     );
 }
-// export const CreateTeamForm = () => {
-//     const [values, onChange] = useForm({name:"",age:12});
-
-//     return <form>
-//         <input type="text" value={form.teamName} name="teamName" id="teamName" />
-//         <input type="text" value={form.player1} name="player1" id="player1" />
-//         <input type="text" value={form.player2} name="player2" id="player2" />
-//         <input type="text" value={form.player3} name="player3" id="player3" />
-//     </form>
-// }

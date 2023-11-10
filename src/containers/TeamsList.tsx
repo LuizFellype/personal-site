@@ -1,5 +1,8 @@
 import { useTeamsCtx } from '@/hooks/TeamsContext'
+import { setupSession } from '@/utils/localStorage'
 import { useRouter } from 'next/navigation'
+
+const session = setupSession()
 
 export function TeamsList() {
     const { teams, selectedTeams, deleteTeam, selectTeam } = useTeamsCtx()
@@ -17,7 +20,7 @@ export function TeamsList() {
                         <b className='block'>{rawTeam.name}</b>
                         <button className='text-blue-300' onClick={() => deleteTeam(rawTeam.id)}>X</button>
                     </div>
-                    <span>{rawTeam.players.join(', ')}</span>
+                    <span>{rawTeam.players.map(({ name }) => name).join(', ')}</span>
                 </div>
             })}
 
@@ -26,6 +29,7 @@ export function TeamsList() {
                 disabled={selectedTeams.length !== 2}
                 className="block w-full cursor-pointer rounded bg-purple-500 px-4 py-2 mx-8 mt-3 text-center font-semibold text-white hover:bg-purple-400 focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70"
                 onClick={() => {
+                    session.set(session.keys.teamsCtx, { teams, selectedTeams })
                     router.push('/playground', { scroll: true })
                 }}
             >

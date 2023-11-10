@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { useTeamStates } from '.';
 import { createTeamPlayer } from './helpers';
 
@@ -8,8 +8,9 @@ const player2 = createPlayer('P2')
 
 describe('useTeamStates', () => {
     test('increasePoints should update team and players points', () => {
-        const { result: team } = renderHook(() => useTeamStates('Team X', [player1.name, player2.name]));
-
+        const players = [player1, player2]
+        const { result: team } = renderHook(() => useTeamStates('Team X', players));
+        
         expect(team.current.points).toBe(0)
         expect(team.current.players[0].points).toBe(0)
 
@@ -29,7 +30,8 @@ describe('useTeamStates', () => {
     })
 
     test('increaseRebounds should update team and player rebounds', () => {
-        const { result: team } = renderHook(() => useTeamStates('Team X', [player1.name]));
+        const players = [player1];
+        const { result: team } = renderHook(() => useTeamStates('Team X', players));
 
         expect(team.current.rebounds).toBe(0)
         expect(team.current.players[0].rebounds).toBe(0)
@@ -43,7 +45,8 @@ describe('useTeamStates', () => {
     })
 
     test('increaseAssistances should update team and player assistances', () => {
-        const { result: team } = renderHook(() => useTeamStates('Team X', [player1.name]));
+        const players = [player1];
+        const { result: team } = renderHook(() => useTeamStates('Team X', players));
 
         expect(team.current.assistances).toBe(0)
         expect(team.current.players[0].assistances).toBe(0)
@@ -57,7 +60,8 @@ describe('useTeamStates', () => {
     })
 
     test('increaseBallSteals should update team and player ball steal', () => {
-        const { result: team } = renderHook(() => useTeamStates('Team X', [player1.name]));
+        const players = [player1];
+        const { result: team } = renderHook(() => useTeamStates('Team X', players));
 
         expect(team.current.ballSteals).toBe(0)
         expect(team.current.players[0].ballSteals).toBe(0)
@@ -71,7 +75,8 @@ describe('useTeamStates', () => {
     })
 
     test('increaseBlocks should update team and player blocks', () => {
-        const { result: team } = renderHook(() => useTeamStates('Team X', [player1.name]));
+        const players = [player1];
+        const { result: team } = renderHook(() => useTeamStates('Team X', players));
 
         expect(team.current.blocks).toBe(0)
         expect(team.current.players[0].blocks).toBe(0)

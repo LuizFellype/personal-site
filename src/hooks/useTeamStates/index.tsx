@@ -1,12 +1,16 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import {
     Player, Team, StatsKey,
-    createTeamPlayer, initialStatsState
+    initialStatsState
 } from './helpers'
 export * from './helpers'
 
-export const useTeamStates = (teamName: string, teamMembers: string[] = []): Team => {
-    const [players, setPlayers] = useState<Player[]>(teamMembers.map(createTeamPlayer(teamName)))
+export const useTeamStates = (teamName: string, teamMembers: Player[] = []): Team => {
+    const [players, setPlayers] = useState<Player[]>(teamMembers)
+
+    useEffect(() => {
+        setPlayers(teamMembers)
+    }, [teamMembers])
 
     const methods = useMemo(() => {
         const increasePlayerProp = (playerPropKey: StatsKey) => (playerId: string) => (amountToIncrease: number) => {

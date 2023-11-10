@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { PlaygroundTeam } from '@/containers/PlaygroundTeam'
 import { ConfigButtons } from '@/containers/ConfigButtons'
@@ -9,7 +9,7 @@ import { useFoulStates } from '@/hooks/useFoulStates'
 import { useTeamStates } from '@/hooks/useTeamStates'
 import { Modal } from '@/containers/Modal'
 import { FoulFeedbackMessage } from '@/containers/FoulFeedbackMessage'
-import { STORAGE_KEYS, getFromStorage, setInStorage } from '@/utils/localStorage'
+import { STORAGE_KEYS, setupSession, setupStorage } from '@/utils/localStorage'
 import { useRouter } from 'next/navigation'
 import { HistoryMatchType } from '@/types/teams'
 import { usePreventRefresh } from '@/hooks/usePreventRefresh'
@@ -19,20 +19,23 @@ const classes = {
   regularBottomButton: `cursor-pointer rounded px-4 py-2 mx-8 mt-3 text-center font-semibold text-white focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70`,
 }
 
+const session = setupSession()
+const storage = setupStorage()
+
+
 export default function Playground() {
-  usePreventRefresh()
-  
   const router = useRouter()
   const [revert, setRevert] = useState(false)
   const [seePlayerStats, setSeePlayerStats] = useState(false)
 
   const [isConfirmingMatchEnd, setIsConfirmingMatchEnd] = useState(false)
 
-  const { selectedTeams, teams } = useTeamsCtx()
+  const { selectedTeams, teams, onGoingMatchStates, resetOnGoingMatchState } = useTeamsCtx()
 
   const [rawTeamA, rawTeamB] = useMemo(() => {
-    return teams.filter(team => selectedTeams.includes(team.id))
-  }, [teams, selectedTeams])
+    return onGoingMatchStates ? [onGoingMatchStates.teamA, onGoingMatchStates.teamB] : teams.filter(team => selectedTeams.includes(team.id))
+  }, [onGoingMatchStates, teams, selectedTeams])
+
 
   const teamA = useTeamStates(rawTeamA.name, rawTeamA.players)
   const teamB = useTeamStates(rawTeamB.name, rawTeamB.players)
@@ -43,6 +46,8 @@ export default function Playground() {
   }
 
   const { handleFoul, currentFoul, fouls, freeThrow, resetFreeThrow } = useFoulStates({ onAddFoul: openModal })
+  usePreventRefresh(teamA, teamB, fouls)
+
   const closeModal = useCallback(() => {
     setOpen(false)
 
@@ -59,9 +64,11 @@ export default function Playground() {
         return setIsConfirmingMatchEnd(false)
       }
       const matchFullState: HistoryMatchType = { teamA, teamB, fouls, endedAt: new Date().getTime() }
-      const savedMatches = getFromStorage('matches', [])
+
+      const savedMatches = storage.get('matches', [])
       const matches = [...savedMatches, matchFullState]
-      setInStorage(STORAGE_KEYS.matchesList, matches)
+      storage.set(STORAGE_KEYS.matchesList, matches)
+      resetOnGoingMatchState()
       router.push('/history')
       return
     }
@@ -113,7 +120,10 @@ export default function Playground() {
               type="button"
               disabled={selectedTeams.length !== 2}
               className={classes.home}
-              onClick={() => router.push('/')}
+              onClick={() => {
+                resetOnGoingMatchState()
+                router.push('/')
+              }}
             >
               Go Home
             </button>

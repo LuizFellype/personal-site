@@ -1,16 +1,23 @@
 'use client'
 import { TeamFormData } from '@/containers/CreateTeamForm/zodSchema/teamForm';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { Player, Team, createTeamPlayer } from './useTeamStates';
+import { setupSession } from '@/utils/localStorage';
+import { FoulType } from './useFoulStates';
+
+export type OnGoingMatchStateType = { teamA: Team; teamB: Team, fouls: FoulType[] } | undefined
 
 export type RawTeam = {
     id: string;
     name: string;
-    players: string[]
+    players: Player[]
 }
 
 type ContextStateType = {
     teams: RawTeam[],
     selectedTeams: string[],
+    onGoingMatchStates?: OnGoingMatchStateType;
+    resetOnGoingMatchState: () => void
     addTeam: (teamFormData: TeamFormData) => void
     deleteTeam: (id: string) => void
     selectTeam: (id: string) => void
@@ -19,6 +26,7 @@ type ContextStateType = {
 const initialState: ContextStateType = {
     teams: [],
     selectedTeams: [],
+    resetOnGoingMatchState: () => { },
     addTeam: () => { },
     deleteTeam: () => { },
     selectTeam: () => { }
@@ -29,7 +37,7 @@ const createRawTeam = (teamFormData: TeamFormData): RawTeam => {
     const { teamName, player1, player2, player3 } = teamFormData
     const newTeam = {
         id: teamName, name: teamName,
-        players: [player1, player2, player3]
+        players: [player1, player2, player3].map(createTeamPlayer(teamName))
     };
     return newTeam
 }
@@ -47,10 +55,25 @@ createRawTeam({
 
 const initialSelectedTeamsTest = [initialTeamsTest[0].id, initialTeamsTest[1].id]
 
+const session = setupSession()
 
 export function TeamsProvider(props: { children: React.ReactNode }) {
     const [teams, setTeams] = useState<RawTeam[]>(initialTeamsTest);
     const [selectedTeams, setSelectedTeams] = useState<string[]>(initialSelectedTeamsTest);
+    const [onGoingMatchStates, setOnGoingMatchStates] = useState<OnGoingMatchStateType>()
+
+    useEffect(() => {
+        const { teams, selectedTeams } = session.get(session.keys.teamsCtx, {})
+
+        if (!!teams || !!selectedTeams) {
+            setTeams(teams)
+            setSelectedTeams(selectedTeams)
+        }
+
+        const onGoingMatch = session.get(session.keys.onGoingMatchState)
+
+        if (onGoingMatch) { setOnGoingMatchStates(onGoingMatch) }
+    }, []);
 
     const addTeam = useCallback((teamFormData: TeamFormData) => {
         const newTeam = createRawTeam(teamFormData)
@@ -61,22 +84,28 @@ export function TeamsProvider(props: { children: React.ReactNode }) {
         setTeams(crtTeams => crtTeams.filter(team => team.id !== id))
     }, [setTeams])
 
+    
     const selectTeam = useCallback((teamId: string) => {
         setSelectedTeams(crtSelectedTeamsId => {
             if (crtSelectedTeamsId.includes(teamId)) {
                 return crtSelectedTeamsId.filter(id => id !== teamId)
             }
-
+            
             if (crtSelectedTeamsId.length >= 2) {
                 return [crtSelectedTeamsId[1], teamId]
             }
-
+            
             return [...crtSelectedTeamsId, teamId]
         })
     }, [setSelectedTeams])
+    
+    const resetOnGoingMatchState = useCallback(() => {
+        setOnGoingMatchStates(undefined)
+        session.remove(session.keys.onGoingMatchState)
+    }, [])
 
     return (
-        <TeamsContext.Provider value={{ teams, selectedTeams, addTeam, deleteTeam, selectTeam }}>
+        <TeamsContext.Provider value={{ teams, selectedTeams, onGoingMatchStates, addTeam, deleteTeam, selectTeam, resetOnGoingMatchState }}>
             {props.children}
         </TeamsContext.Provider>
     );
