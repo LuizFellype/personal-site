@@ -61,7 +61,7 @@ const HistoryAccordion = memo(({ teamA, teamB, endedAt, onDeleteClick, fouls }: 
 export default function History() {
     const router = useRouter()
     const [matches, setMatches] = useState<HistoryMatchType[]>([]);
-
+    
     useEffect(() => {
         const history = getFromStorage(STORAGE_KEYS.matchesList, [])
         setMatches(history)

@@ -17,11 +17,11 @@ export type Team = MatchStats & {
     id: string;
     name: string,
     players: Player[];
-    increasePoints: (playerId: string) => (amountToIncrease: number) => void;
-    increaseRebounds: (playerId: string) => (amountToIncrease: number) => void;
-    increaseAssistances: (playerId: string) => (amountToIncrease: number) => void;
-    increaseBallSteals: (playerId: string) => (amountToIncrease: number) => void;
-    increaseBlocks: (playerId: string) => (amountToIncrease: number) => void;
+    increasePoints?: (playerId: string) => (amountToIncrease: number) => void;
+    increaseRebounds?: (playerId: string) => (amountToIncrease: number) => void;
+    increaseAssistances?: (playerId: string) => (amountToIncrease: number) => void;
+    increaseBallSteals?: (playerId: string) => (amountToIncrease: number) => void;
+    increaseBlocks?: (playerId: string) => (amountToIncrease: number) => void;
 }
 
 export const initialStatsState: MatchStats = {

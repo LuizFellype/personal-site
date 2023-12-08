@@ -19,7 +19,6 @@ const classes = {
   regularBottomButton: `cursor-pointer rounded px-4 py-2 mx-8 mt-3 text-center font-semibold text-white focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70`,
 }
 
-const session = setupSession()
 const storage = setupStorage()
 
 
