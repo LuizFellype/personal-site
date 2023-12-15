@@ -3,6 +3,7 @@
 import DynamicButtons from '@/containers/DynamicButtons'
 import { PlaygroundTeam } from '@/containers/PlaygroundTeam'
 import { HistoryMatchType } from '@/types/teams'
+import { getMVPPlayers } from '@/utils/getMVPInfo'
 import { STORAGE_KEYS, getFromStorage, setInStorage } from '@/utils/localStorage'
 import { useRouter } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
@@ -77,6 +78,8 @@ export default function History() {
         updateHistory(updatedList)
     }, [matches])
 
+    const MVP = useMemo(() => getMVPPlayers(matches)[0], [matches]);
+
     return (
         <main className=''>
             <DynamicButtons buttons={[{
@@ -90,6 +93,13 @@ export default function History() {
             {
                 matches.map(match => <HistoryAccordion key={`${match.teamA.id}_${match.teamB.id}_${match.endedAt}`} {...match} onDeleteClick={handleDeleteMatch} />)
             }
+
+            { MVP && <>
+                <h1>MVP</h1>
+                <h2>{MVP.name}</h2>
+                <b>Average points:</b><span>{MVP.points}</span>
+            </> }
+            
             {!matches.length && <div className='text-center text-orange-600 text-md tracking-widest'><b>Nenhuma partida salva.</b></div>}
         </main>
     )
