@@ -47,7 +47,7 @@ export const MATCHES_MOCK: HistoryMatchType[] = [{
 ]
 
 
-const setPoints = (p: number) => Number(parseFloat(p).toFixed(2))
+const setPoints = (p: number) => Number(parseFloat(`${p}`).toFixed(2))
 
 export const AVERAGE_RESULT = [
     { id: 'Luiz', name: 'Luiz', points: setPoints(3 / 2), teamId: 'Centro' },
