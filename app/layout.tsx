@@ -2,12 +2,13 @@ import { TeamsProvider } from '@/hooks/TeamsContext'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Basket Stats',
-  description: 'Created to score basket stats play',
+  description: 'App to score basket stats 3x3 match',
 }
 
 export default function RootLayout({
@@ -17,8 +18,40 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={inter.className} suppressHydrationWarning={true}>
-        <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider>
+      <Head>
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover'
+        />
+        <meta charSet='utf-8' />
+        <link
+          href="/icons/favicon-16x16.png"
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+        />
+        <link
+          href="/icons/favicon-32x32.png"
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+        />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover'
+        />
+        <meta
+          name='theme-color'
+          content='#18181b'
+          media='(prefers-color-scheme: dark)'
+        />
+        <meta name='theme-color' content='#d3acfe' />
+        <link rel='apple-touch-icon' href='/icons/icon-512x512.png' />
+      </Head>
+      <body>
+        <body className={inter.className} suppressHydrationWarning={true}>
+          <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider>
+        </body>
       </body>
     </html>
   )
