@@ -1,9 +1,7 @@
 import { Player } from "@/hooks/useTeamStates";
+import { SumStatsType } from "@/types/MVP";
 import { HistoryMatchType } from "@/types/teams";
 
-type SumStatsType = {
-    id: string, name: string, points: number, teamId: string
-}
 
 const updatePlayersSum = (matchPlayers: Player[], sumStatsByPlayers: SumStatsType[]) => {
     const updatePlayerSum = (player: Player, sumStats: SumStatsType[]) => {

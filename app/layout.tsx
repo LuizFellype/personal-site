@@ -48,10 +48,9 @@ export default function RootLayout({
         <meta name='theme-color' content='#d3acfe' />
         <link rel='apple-touch-icon' href='/icons/icon-512x512.png' />
       </Head>
-      <body>
-        <body className={inter.className} suppressHydrationWarning={true}>
-          <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider>
-        </body>
+      
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider>
       </body>
     </html>
   )
