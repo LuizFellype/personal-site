@@ -27,7 +27,6 @@ export default function Home() {
     resetOnGoingMatchState()
 
     const onBefore = (event: Event) => {
-      console.log('----------------------')
       event.preventDefault();
       installPrompt.current = event;
       setHideInstallButton(false)
@@ -54,8 +53,7 @@ export default function Home() {
           if (!installPrompt.current) {
             return;
           }
-          const result = await installPrompt.current.prompt?.();
-          console.log(`Install prompt was: ${result.outcome}`);
+          await installPrompt.current.prompt?.();
           disableInAppInstallPrompt();
         },
         hidden: hideInstallButton,

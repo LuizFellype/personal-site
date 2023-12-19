@@ -23,7 +23,9 @@ export default function RootLayout({
           name='viewport'
           content='width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover'
         />
+        <meta name='theme-color' content='#d3acfe' media='(prefers-color-scheme: dark)' />
         <meta charSet='utf-8' />
+        
         <link
           href="/icons/favicon-16x16.png"
           rel="icon"
@@ -36,16 +38,7 @@ export default function RootLayout({
           type="image/png"
           sizes="32x32"
         />
-        <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover'
-        />
-        <meta
-          name='theme-color'
-          content='#18181b'
-          media='(prefers-color-scheme: dark)'
-        />
-        <meta name='theme-color' content='#d3acfe' />
+        
         <link rel='apple-touch-icon' href='/icons/icon-512x512.png' />
       </Head>
       
