@@ -14,9 +14,30 @@ export default function Home() {
   const { addTeam, resetOnGoingMatchState } = useTeamsCtx()
   const router = useRouter()
   const { isContentHidden, onMouseDown, onMouseUp } = useHiddenContentState({ onMouseUp: () => router.push('/history') })
+  const [hideInstallButton, setHideInstallButton] = useState<boolean>(true);
+
+  const installPrompt = useRef<any>()
+
+  function disableInAppInstallPrompt() {
+    installPrompt.current = null;
+    setHideInstallButton(true)
+  }
 
   useEffect(() => {
     resetOnGoingMatchState()
+
+    const onBefore = (event: Event) => {
+      console.log('----------------------')
+      event.preventDefault();
+      installPrompt.current = event;
+      setHideInstallButton(false)
+    }
+    window.addEventListener("beforeinstallprompt", onBefore);
+    window.addEventListener("appinstalled", disableInAppInstallPrompt);
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onBefore)
+      window.removeEventListener("appinstalled", disableInAppInstallPrompt);
+    }
   }, [])
   
 
@@ -28,6 +49,19 @@ export default function Home() {
         onTouchStart: onMouseDown,
         onTouchEnd: onMouseUp
       }, {
+        label: 'Install',
+        onClick: async () => {
+          if (!installPrompt.current) {
+            return;
+          }
+          const result = await installPrompt.current.prompt?.();
+          console.log(`Install prompt was: ${result.outcome}`);
+          disableInAppInstallPrompt();
+        },
+        hidden: hideInstallButton,
+        className: 'd_shake'
+      },
+      {
         label: 'Strategies',
         onClick: () => router.push('/strategy'),
         hidden: isContentHidden,
