@@ -89,7 +89,7 @@ export default function History() {
                 onClick: () => {
                     updateHistory([])
                 }, label: 'Limpar', disabled: !matches?.length
-            }]} absolute={false}/>
+            }]} />
 
             {
                 matches.map(match => <HistoryAccordion key={`${match.teamA.id}_${match.teamB.id}_${match.endedAt}`} {...match} onDeleteClick={handleDeleteMatch} />)
