@@ -7,7 +7,7 @@ export default function History() {
             <Link className={`text-orange-400 border-dotted border-orange-400 border-2 p-1 rounded-md `} href='/' title='Home' >HOME</Link>
 
             <div className='bg-orange-200 text-black mx-5 p-5 d_card'>
-                <h1 className='text-xl font-bolder text-center d_shake mb-4'>Stratégias</h1>
+                <h1 className='text-2xl font-bolder text-center d_shake mb-4'>Stratégias</h1>
 
                 <div className="flex space-x-5 d_border w-fit mb-3 mx-auto">
                     <div className='w-fit flex flex-col mb-4'>
@@ -62,6 +62,40 @@ export default function History() {
                 </div>
 
                 <i className='text-sm'>OBS.: A IDEIA É FAZER ANIMAÇAO COM CANVAS DESSAS PLAYS.</i>
+            </div>
+
+            {/* <div className='bg-orange-200 text-black p-5 d_card w-fit mx-auto'> */}
+            <div className='bg-orange-200 text-black p-5 d_card mx-auto'>
+                <h1 className='text-2xl font-bolder text-center d_shake mb-4'>Treinos</h1>
+
+                
+                <div className='mb-3 d_border mx-auto w-fit'>
+                    <h2 className='text-bold text-center text-lg'>Tips</h2>
+                    <p className='text-sm text-center'>Wide base. Chess up.</p>
+                    <p className='text-sm'>Activate feet. Low and Tight.</p>
+                </div>
+
+                <div className='mb-3 d_border w-6/12 mx-auto'>
+                    <h2 className='text-bold text-center text-lg'>Warm up Drills</h2>
+                    
+                    {[
+                        ['One handle cross', `↑5x`],
+                        ['OHC + Double Cross' ,'1,2. 1,2', '5x'],
+                        ['OHC + Triple Cross' ,'1,2. 1,2,3', '6x'],
+                        ['OHC + In Between' ,'1,2 ~ 3 e 4', '5x'],
+                        ['OHC + 2xCross + inB' , '1,2. 3,4 ~ 5, 6', '5x'],
+                        ['3xCross + inB' ,'1,2,3 e 4', '5x'],
+                        ['Pop + inB + Behind' ,'1. 1,2', '5x'],
+                        ['Pop + inB + inB Reverse' ,'1. 1,2', '5x'],
+                        ['Mix (pop, crossover, behind, reverse)' ,'1. 1,2. 1,2. 1,2', '3x'],
+                        ['1,5 Crossover + 2xCross)' ,'1, 2, 3. 1,2', '↑garrafao'],
+                        ['In and Out + 2xCross + crossover)' ,'1. 1,2, 1, 2', '↑garrafao'],
+                        ['2x Crossover + inB shift + cross)' ,'1, 2, 1 ~ 2', '↑garrafao'],
+                    ].map(([desc, sound, rep]) => {
+                        return <div key={desc} className='flex justify-between'> <span>{desc} </span> <i >{sound}</i>  <span>{rep}</span></div>
+                    })}
+                </div>
+
             </div>
         </div>
     )
