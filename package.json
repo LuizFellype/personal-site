@@ -14,6 +14,7 @@
     "commit-msg": "commitlint -e"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.0.2",
     "@hookform/resolvers": "^3.3.1",
     "@types/node": "20.6.2",
     "@types/react": "18.2.21",
