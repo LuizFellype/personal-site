@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { PlaygroundTeam } from '@/containers/PlaygroundTeam'
 import { ConfigButtons } from '@/containers/ConfigButtons'
@@ -13,10 +13,16 @@ import { STORAGE_KEYS, setupSession, setupStorage } from '@/utils/localStorage'
 import { useRouter } from 'next/navigation'
 import { HistoryMatchType } from '@/types/teams'
 import { usePreventRefresh } from '@/hooks/usePreventRefresh'
+import { useClock } from '@/hooks/useClock'
 
 const classes = {
   home: 'cursor-pointer bg-transparent px-4 py-2 mx-8 mt-3 text-center font-semibold text-orange-400 border-dotted border-orange-400 border-2 p-1 rounded-md hover:$bg-gray-400 focus:outline-none focus:ring focus:ring-blue-200 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70',
   regularBottomButton: `cursor-pointer rounded px-4 py-2 mx-8 mt-3 text-center font-semibold text-white focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-80 focus:ring-offset-2 disabled:opacity-70`,
+}
+
+const MODAL_CONTENT_ID = {
+  fouls: 'fouls',
+  timeEnded: 'timeEnded',
 }
 
 const storage = setupStorage()
@@ -26,10 +32,12 @@ export default function Playground() {
   const router = useRouter()
   const [revert, setRevert] = useState(false)
   const [seePlayerStats, setSeePlayerStats] = useState(false)
+  const modalContentRef = useRef<string>('')
 
   const [isConfirmingMatchEnd, setIsConfirmingMatchEnd] = useState(false)
 
   const { selectedTeams, teams, onGoingMatchStates, resetOnGoingMatchState } = useTeamsCtx()
+
 
   const [rawTeamA, rawTeamB] = useMemo(() => {
     return onGoingMatchStates ? [onGoingMatchStates.teamA, onGoingMatchStates.teamB] : teams.filter(team => selectedTeams.includes(team.id))
@@ -40,14 +48,24 @@ export default function Playground() {
   const teamB = useTeamStates(rawTeamB.name, rawTeamB.players)
 
   const [isModalOpen, setOpen] = useState(false);
-  const openModal = useCallback(() => {
-    setOpen(true)
+  const openModal = useCallback((modalContentID: string) => {
+    return () => {
+      modalContentRef.current = modalContentID
+      setOpen(true)
+    }
   }, [])
 
-  const foulsParams = useMemo(() => ({ onAddFoul: openModal, defaultFouls: onGoingMatchStates?.fouls }), [openModal, onGoingMatchStates]);
+  const foulsParams = useMemo(() => ({ onAddFoul: openModal(MODAL_CONTENT_ID.fouls), defaultFouls: onGoingMatchStates?.fouls }), [openModal, onGoingMatchStates]);
   const { handleFoul, currentFoul, fouls, freeThrow, resetFreeThrow } = useFoulStates(foulsParams)
-  
-  usePreventRefresh(teamA, teamB, fouls)
+
+
+  const clockParams = useMemo(() => {
+    return { initialDate: onGoingMatchStates?.remainingTime, onComplete: openModal(MODAL_CONTENT_ID.timeEnded) }
+  }, [onGoingMatchStates])
+  const { clockComponent, countDownRef } = useClock(clockParams)
+  ""
+
+  usePreventRefresh(teamA, teamB, fouls, countDownRef)
 
   const closeModal = useCallback(() => {
     setOpen(false)
@@ -76,19 +94,34 @@ export default function Playground() {
     setIsConfirmingMatchEnd(true)
   }
 
+  const isTimeEndedFeedback = modalContentRef.current === MODAL_CONTENT_ID.timeEnded
+  const isFoulFeedback = modalContentRef.current === MODAL_CONTENT_ID.fouls
   return (
     <main className='h-full w-full pt-2'>
-      <Modal isOpen={isModalOpen} onClose={closeModal} isTemporary={!freeThrow} >
+      <Modal isOpen={isModalOpen} onClose={closeModal} isTemporary={isFoulFeedback && !freeThrow} >
         {
-          isModalOpen && <FoulFeedbackMessage
-            isFreeThrow={!!freeThrow}
-            foul={!!freeThrow ? freeThrow : lastFoul}
-          />
+          isModalOpen && <>
+            {
+              isFoulFeedback && (<FoulFeedbackMessage
+                isFreeThrow={!!freeThrow}
+                foul={!!freeThrow ? freeThrow : lastFoul}
+              />)
+            }
+            {isTimeEndedFeedback && (
+              <>
+                <span className='text-3xl pl-2 text-orange-500 modal-name-shaddow'>Tempo Esgotado</span>
+                <p className='text-lg text-orange-300 mt-2 text-center'>Finalize e Salve a Partida {':)'}</p>
+                <p className='text-sm text-orange-300 text-center'>Não esqueça de parabenizar os jogadores {';)'}</p>
+              </>
+            )}
+          </>
         }
       </Modal>
 
+      {clockComponent}
 
       <div className='flex flex-col landscape:flex-row md:flex-row flex-wrap justify-between text-black relative gap-2'>
+
         <ConfigButtons
           seePlayerStats={seePlayerStats} revert={revert} setRevert={setRevert} setSeePlayerStats={setSeePlayerStats}
           onFoulClick={handleFoul}
@@ -113,40 +146,38 @@ export default function Playground() {
         />
 
       </div>
-      {
-        (!!teamA.points || !!teamB.points) && <div className='flex justify-around flex-wrap mt-4 relative'>
-          {isConfirmingMatchEnd && (
-            <button
-              type="button"
-              disabled={selectedTeams.length !== 2}
-              className={classes.home}
-              onClick={() => {
-                router.push('/')
-              }}
-            >
-              Go Home
-            </button>
-          )}
-
+      <div className='flex justify-around flex-wrap mt-4 relative'>
+        {isConfirmingMatchEnd && (
           <button
-            type="submit"
-            disabled={selectedTeams.length !== 2}
-            className={`${classes.regularBottomButton} ${isConfirmingMatchEnd ? 'bg-teal-600' : 'bg-purple-500'} hover:${isConfirmingMatchEnd ? 'bg-teal-500' : 'bg-purple-400'}`}
-            onClick={handleEndMatch(true)}
-          >
-            {isConfirmingMatchEnd ? 'Salvar' : 'Finalizar Partida'}
-          </button>
-          {isConfirmingMatchEnd && (<button
             type="button"
             disabled={selectedTeams.length !== 2}
-            className={`${classes.regularBottomButton} bg-gray-500 hover:bg-gray-400`}
-            onClick={handleEndMatch(false)}
+            className={classes.home}
+            onClick={() => {
+              router.push('/')
+            }}
           >
-            Cancelar
+            Go Home
           </button>
-          )}
-        </div>
-      }
+        )}
+
+        <button
+          type="submit"
+          disabled={selectedTeams.length !== 2}
+          className={`${classes.regularBottomButton} ${isConfirmingMatchEnd ? 'bg-teal-600' : 'bg-purple-500'} hover:${isConfirmingMatchEnd ? 'bg-teal-500' : 'bg-purple-400'}`}
+          onClick={handleEndMatch(true)}
+        >
+          {isConfirmingMatchEnd ? 'Salvar' : 'Finalizar Partida'}
+        </button>
+        {isConfirmingMatchEnd && (<button
+          type="button"
+          disabled={selectedTeams.length !== 2}
+          className={`${classes.regularBottomButton} bg-gray-500 hover:bg-gray-400`}
+          onClick={handleEndMatch(false)}
+        >
+          Cancelar
+        </button>
+        )}
+      </div>
     </main>
   )
 }

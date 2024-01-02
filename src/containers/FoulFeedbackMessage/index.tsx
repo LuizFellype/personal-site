@@ -17,7 +17,7 @@ const getClasses = (isFreeThrow: boolean) => {
         name: 400
     }
 
-    const playerNameClasses = `foul-modal-name-shaddow text-lg text-orange-${orangeLevels.name}`
+    const playerNameClasses = `modal-name-shaddow text-lg text-orange-${orangeLevels.name}`
 
     return { orangeLevels, playerNameClasses }
 }
@@ -29,14 +29,14 @@ const FoulFeedbackMessageContainer = ({ foul, isFreeThrow = false }: FoulFeedbac
 
     return (
         <div className={`text-orange-${orangeLevels.general} tracking-wider`}>
-            <div className={`foul-modal-name-shaddow flex font-bold text-xl text-orange-${orangeLevels.title}`}>
+            <div className={`modal-name-shaddow flex font-bold text-xl text-orange-${orangeLevels.title}`}>
                 <h2 className='uppercase mr-1 tracking-widest'>Falta</h2>
                 <span> {isFreeThrow ? '- Lance Livre' : ''}</span>
             </div>
             <div className='mt-2'>
                 <b className={playerNameClasses}>{foul.commited}</b> <span>cometeu <b>{foul.amount}</b> falta(s) em </span> <b className={playerNameClasses}>{foul.received}</b>
 
-                {isFreeThrow && <span className='mt-1 block'><b className={playerNameClasses}>{foul.received}</b> tem direito ao <i className="text-orange-200 foul-modal-name-shaddow">Lance Livre</i>.</span>}
+                {isFreeThrow && <span className='mt-1 block'><b className={playerNameClasses}>{foul.received}</b> tem direito ao <i className="text-orange-200 modal-name-shaddow">Lance Livre</i>.</span>}
             </div>
         </div>
     )

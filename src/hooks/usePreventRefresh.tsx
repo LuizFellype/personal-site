@@ -1,12 +1,13 @@
 import { setupSession } from "@/utils/localStorage";
-import { useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { Team } from "./useTeamStates";
 import { FoulType } from "./useFoulStates";
-import { RawTeam } from "./TeamsContext";
+import Countdown from "react-countdown";
+import { OnGoingMatchStateType } from "./TeamsContext";
 
 const session = setupSession()
 
-export const usePreventRefresh = (teamA: Team, teamB: Team, fouls: FoulType[]) => {
+export const usePreventRefresh = (teamA: Team, teamB: Team, fouls: FoulType[], countDownRef: RefObject<Pick<Countdown, 'state'>>) => {
     const teamARef = useRef(teamA)
     const teamBRef = useRef(teamB)
     const foulsRef = useRef(fouls)
@@ -20,11 +21,14 @@ export const usePreventRefresh = (teamA: Team, teamB: Team, fouls: FoulType[]) =
     useEffect(() => {
       const beforeUnloadHandler = (event: any) => {
         event?.preventDefault();
-        session.set(session.keys.onGoingMatchState, { 
+
+        const onGoingMatchState: OnGoingMatchStateType = { 
           teamA: teamARef.current, 
           teamB: teamBRef.current, 
-          fouls: foulsRef.current 
-        })
+          fouls: foulsRef.current,
+          remainingTime: countDownRef?.current?.state?.timeDelta?.total
+        }
+        session.set(session.keys.onGoingMatchState, onGoingMatchState)
       };
   
       window.addEventListener("beforeunload", beforeUnloadHandler);

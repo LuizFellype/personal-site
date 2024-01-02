@@ -5,7 +5,7 @@ import { Player, Team, createTeamPlayer } from './useTeamStates';
 import { setupSession } from '@/utils/localStorage';
 import { FoulType } from './useFoulStates';
 
-export type OnGoingMatchStateType = { teamA: Team; teamB: Team, fouls: FoulType[] } | undefined
+export type OnGoingMatchStateType = { teamA: Team; teamB: Team, fouls: FoulType[], remainingTime?: number } | undefined
 
 export type RawTeam = {
     id: string;
