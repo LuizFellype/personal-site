@@ -65,8 +65,9 @@ export default function CreateTeamForm(props: { onSubmit: (data: TeamFormData) =
                                 {
                                     fields.map(field => <div className='relative mb-10' key={field.id}>
                                         <input
-                                            {...register(field.id, { required: true })}
+                                            {...register(field.id)}
                                             id={field.id}
+                                            required
                                             name={field.id}
                                             type="text"
                                             className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:border-purple-600 focus:outline-none"

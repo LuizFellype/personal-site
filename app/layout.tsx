@@ -44,7 +44,6 @@ export const metadata: Metadata = {
     },
     description: APP_DESCRIPTION,
   },
-  themeColor: '#d3acfe',
   icons: [
     {
       url: "/icons/favicon-16x16.png",
