@@ -4,7 +4,7 @@ import type { CountdownProps } from "react-countdown"
 
 
 export const useClock = (params: { initialDate?: number, onComplete: CountdownProps['onComplete'] }) => {
-    const { initialDate = 60000 * .2, onComplete } = params || {}
+    const { initialDate = 60000 * 10, onComplete } = params || {}
 
     const countDownRef = useRef<Countdown>(null)
     
