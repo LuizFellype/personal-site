@@ -7,11 +7,14 @@ export type MatchStats = {
 }
 export type StatsKey = keyof MatchStats
 
-export type Player = {
+export type Player = MatchStats & {
     id: string;
     name: string,
     teamId: string
-} & MatchStats
+    threePoints: number
+    twoPoints: number
+    onePoints: number
+}
 
 export type Team = MatchStats & {
     id: string;
@@ -45,6 +48,9 @@ export const createTeamPlayer = (teamId: string) => (playerName: string): Player
         id: playerName,
         name: playerName,
         points: 0,
+        threePoints: 0,
+        twoPoints: 0,
+        onePoints: 0,
         assistances: 0,
         ballSteals: 0,
         blocks: 0,

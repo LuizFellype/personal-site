@@ -5,6 +5,23 @@ import {
 } from './helpers'
 export * from './helpers'
 
+const getUpdatedPlayerPoints = (player: Player, amount: number) => {
+    const isRevertingScore = amount < 0
+    if (isRevertingScore) { 
+        return {
+            3: { threePoints: player.threePoints - 1 },
+            2: { twoPoints: player.twoPoints - 1 },
+            1: { onePoints: player.onePoints - 1 },
+        }[amount * -1]
+    }
+
+    return {
+        3: { threePoints: player.threePoints + 1 },
+        2: { twoPoints: player.twoPoints + 1 },
+        1: { onePoints: player.onePoints + 1 },
+    }[amount]
+}
+
 export const useTeamStates = (teamName: string, teamMembers: Player[] = []): Team => {
     const [players, setPlayers] = useState<Player[]>(teamMembers)
 
@@ -16,10 +33,15 @@ export const useTeamStates = (teamName: string, teamMembers: Player[] = []): Tea
         const increasePlayerProp = (playerPropKey: StatsKey) => (playerId: string) => (amountToIncrease: number) => {
             const updatePlayerPoints = (currentPlayers: Player[]) => currentPlayers.map(player => {
                 const newValue = player[playerPropKey] + amountToIncrease
+                const shouldUpdatePoints = playerPropKey === 'points'
+                
+                const specificPointsForPlayerStats = shouldUpdatePoints ? getUpdatedPlayerPoints(player, amountToIncrease) : {}
+
                 return player.id === playerId ?
                     {
                         ...player,
-                        [playerPropKey]: newValue < 0 ? 0 : newValue
+                        [playerPropKey]: newValue < 0 ? 0 : newValue,
+                        ...specificPointsForPlayerStats
                     } : player
             }
             )

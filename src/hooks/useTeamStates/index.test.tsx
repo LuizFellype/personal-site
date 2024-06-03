@@ -19,13 +19,24 @@ describe('useTeamStates', () => {
         })
 
         expect(team.current.players[0].points).toBe(2)
+        expect(team.current.players[0].twoPoints).toBe(1)
+        expect(team.current.players[0].threePoints).toBe(0)
+        expect(team.current.players[0].onePoints).toBe(0)
         expect(team.current.points).toBe(2)
 
         act(() => {
-            team.current.increasePoints(player2.id)(2);
+            team.current.increasePoints?.(player2.id)(2);
         })
         expect(team.current.players[0].points).toBe(2)
+        expect(team.current.players[0].twoPoints).toBe(1)
+        expect(team.current.players[0].threePoints).toBe(0)
+        expect(team.current.players[0].onePoints).toBe(0)
+        
         expect(team.current.players[1].points).toBe(2)
+        expect(team.current.players[1].twoPoints).toBe(1)
+        expect(team.current.players[1].threePoints).toBe(0)
+        expect(team.current.players[1].onePoints).toBe(0)
+
         expect(team.current.points).toBe(4)
     })
 
@@ -87,6 +98,37 @@ describe('useTeamStates', () => {
 
         expect(team.current.players[0].blocks).toBe(1)
         expect(team.current.blocks).toBe(1)
+    })
+
+    describe('revert', () => {
+        test('increasePoints should update team and players points', () => {
+            const players = [player1, player2]
+            const { result: team } = renderHook(() => useTeamStates('Team X', players));
+            
+            expect(team.current.points).toBe(0)
+            expect(team.current.players[0].points).toBe(0)
+    
+            act(() => {
+                team.current.increasePoints?.(player1.id)(2);
+            })
+    
+            expect(team.current.players[0].points).toBe(2)
+            expect(team.current.players[0].twoPoints).toBe(1)
+            expect(team.current.players[0].threePoints).toBe(0)
+            expect(team.current.players[0].onePoints).toBe(0)
+            
+            expect(team.current.points).toBe(2)
+    
+            act(() => {
+                team.current.increasePoints?.(player1.id)(-2);
+            })
+            expect(team.current.players[0].points).toBe(0)
+            expect(team.current.players[0].twoPoints).toBe(0)
+            expect(team.current.players[0].threePoints).toBe(0)
+            expect(team.current.players[0].onePoints).toBe(0)
+
+            expect(team.current.points).toBe(0)
+        })
     })
 })
 

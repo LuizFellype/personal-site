@@ -94,7 +94,7 @@ export default function Playground() {
     setIsConfirmingMatchEnd(true)
   }
 
-  const isTimeEndedFeedback = modalContentRef.current === MODAL_CONTENT_ID.timeEnded
+  const hasTimeEndedFeedback = modalContentRef.current === MODAL_CONTENT_ID.timeEnded
   const isFoulFeedback = modalContentRef.current === MODAL_CONTENT_ID.fouls
   return (
     <main className='h-full w-full pt-2'>
@@ -107,7 +107,7 @@ export default function Playground() {
                 foul={!!freeThrow ? freeThrow : lastFoul}
               />)
             }
-            {isTimeEndedFeedback && (
+            {hasTimeEndedFeedback && (
               <>
                 <span className='text-3xl pl-2 text-orange-500 modal-name-shaddow'>Tempo Esgotado</span>
                 <p className='text-lg text-orange-300 mt-2 text-center'>Finalize e Salve a Partida {':)'}</p>
@@ -130,19 +130,21 @@ export default function Playground() {
 
         <PlaygroundTeam
           team={teamA}
-          seePlayerStats={seePlayerStats}
+          seePlayerStats={seePlayerStats || hasTimeEndedFeedback}
           revert={revert}
           onFoulClick={handleFoul}
           currentFoul={currentFoul}
           wrapperClass="landscape:pr-3 md:pr-3"
-        />
+          freeThrowPlayerName={freeThrow?.received}
+          />
         <PlaygroundTeam
           team={teamB}
-          seePlayerStats={seePlayerStats}
+          seePlayerStats={seePlayerStats || hasTimeEndedFeedback}
           revert={revert}
           onFoulClick={handleFoul}
           currentFoul={currentFoul}
           wrapperClass="landscape:pl-3 md:pl-3"
+          freeThrowPlayerName={freeThrow?.received}
         />
 
       </div>

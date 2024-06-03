@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { getFoulClassName, usePlayground } from './helpers'
 
@@ -11,6 +11,7 @@ type PlayGroundTeamProps = {
   team: Team; seePlayerStats?: boolean, revert?: boolean
   onFoulClick?: (player?: Player) => string | void
   currentFoul?: MomentFoul;
+  freeThrowPlayerName?: string;
   wrapperClass?: string;
   fouls?: FoulType[]
 }
@@ -31,10 +32,10 @@ const FoulsContainer = memo(({ normalizedFouls, playerId }: { normalizedFouls: N
   const [showDetails, setShowDetails] = useState(false)
 
   const total = useMemo(() => normalizedFouls[playerId]?.reduce((acc, { amount }) => { return acc + amount }, 0), [normalizedFouls, playerId])
-
+  
   return !!normalizedFouls[playerId] && (
     <div className='text-xs'>
-      <span onClick={() => setShowDetails(!showDetails)} className={`border border-purple-300 ${showDetails ? 'text-orange-400' : 'text-purple-400'} pr-1 pl-1 rounded-lg`}>Faltas: {total}</span> 
+      <span onClick={() => setShowDetails(!showDetails)} className={`border border-purple-300 ${showDetails ? 'text-orange-400' : 'text-purple-400'} pr-1 pl-1 rounded-lg`}>Faltas: {total}</span>
       {showDetails && normalizedFouls[playerId].map(foul => {
         return <span key={`${foul.received}_${foul.amount}`}> {foul.amount} {foul.received}.</span>
       })}
@@ -42,13 +43,16 @@ const FoulsContainer = memo(({ normalizedFouls, playerId }: { normalizedFouls: N
   )
 })
 
+const generalJustifyContent = 'justify-around'
 const PlaygroundTeamContainer = ({
   team, seePlayerStats = false, revert = false,
   onFoulClick = () => { },
   currentFoul,
   wrapperClass = '',
-  fouls = []
+  fouls = [],
+  freeThrowPlayerName
 }: PlayGroundTeamProps) => {
+
   const { getActionHandler, id: teamId, name, teamStats, players } = usePlayground(team)
 
   const amountToChange = useCallback(setValueByFlag(revert), [revert])
@@ -78,56 +82,107 @@ const PlaygroundTeamContainer = ({
 
   const isFoulOn = useMemo(() => !!currentFoul, [currentFoul])
 
+  const [isFullPlayerPointsVisible, setIsFullPlayerPointsVisible] = useState<Record<string, boolean>>({});
+
+  const [isFreeThrowPlayer, setIsFreeThrowPlayer] = useState<string | undefined>();
+
+  useEffect(() => {
+    freeThrowPlayerName && setIsFreeThrowPlayer(freeThrowPlayerName)
+  }, [freeThrowPlayerName])
+
+
+  const handleFullPointsVisibility = useCallback((player: Player) => () => {
+    setIsFullPlayerPointsVisible(crnt => (crnt[player.id] ? { ...crnt, [player.id]: false } : { ...crnt, [player.id]: true }))
+  }, [setIsFullPlayerPointsVisible])
+
+
   return <section className={`flex-1`}>
     <h1
-      className='text-center text-2xl font-semibold text-orange-600 capitalize mb-2'>
+      className={`text-center text-2xl font-semibold text-orange-600 capitalize mb-2 `}>
       {name}
     </h1>
 
     <div className={wrapperClass}>
-      <div className="flex justify-between mb-3">
+      <div className={`flex ${generalJustifyContent} mb-3`}>
         {teamStatsContainer}
       </div>
 
       {players.map((player, idx) => {
-        const { name, id, teamId, ...playerStats } = player
+        const { name, id, teamId, points,
+          assistances,
+          ballSteals,
+          blocks,
+          rebounds } = player
+
+        const playerStats = {
+          points,
+          assistances,
+          ballSteals,
+          blocks,
+          rebounds
+        }
+        const dynamicStatsAlignment = isFullPlayerPointsVisible[id] ? 'items-baseline' : 'items-center'
+        
+        const isPlayerFreeThrowing = isFreeThrowPlayer === player.id
 
         return (
           <div
-            className="flex flex-col items-center justify-between mb-2"
+            className={`flex flex-col items-center ${generalJustifyContent} mb-2`}
             key={`${teamId}_${name}_playerName${idx}`}
           >
-            <div className='text-center'>
+            <div className='text-center flex flex-col'>
               <b
-                className={`${setFoulClassName(player)} ${playerNameMarginBottom}`} onClick={handleFoul(player)}>
+                className={`${setFoulClassName(player)}`} onClick={handleFoul(player)}>
                 {name}
               </b>
-              <FoulsContainer normalizedFouls={normalizedFouls} playerId={id} />
+              {isPlayerFreeThrowing && <button className='underline' onClick={() => setIsFreeThrowPlayer(undefined)}>Finalizar Free Throw</button>}
+              {seePlayerStats && <FoulsContainer normalizedFouls={normalizedFouls} playerId={id} />}
             </div>
 
-            <div className='flex items-center justify-between w-full'>
+            <div className={`flex ${dynamicStatsAlignment} ${generalJustifyContent} w-full`}>
               {Object.entries(playerStats).map(([statsKey, value], idx) => {
+                const isPointsCol = statsKey === 'points'
+
+                const regularButton = <button
+                  disabled={(!isPointsCol && !!isFreeThrowPlayer) ||  isFoulOn || revert && value === 0}
+                  onClick={getActionHandler(statsKey, id, amountToChange(-1, 1))}
+                  className="stats-action">
+                  {amountToChange(-1, '+1')}
+                </button>
+
                 const actionButtons = (
                   <div className='flex flex-col' key={`action_${teamId}_${id}_${statsKey}${idx}`}>
-                    <button
-                      disabled={isFoulOn || revert && value === 0}
-                      onClick={getActionHandler(statsKey, id, amountToChange(-1, 1))}
-                      className="stats-action">
-                      {amountToChange(-1, '+1')}
-                    </button>
-                    {statsKey === 'points' &&
-                      <button
-                        disabled={isFoulOn || revert && value < 2}
-                        onClick={getActionHandler(statsKey, id, amountToChange(-2, 2))}
-                        className="stats-action mt-1">
-                        {amountToChange(-2, '+2')}
-                      </button>}
+                    {(!isPointsCol || isPlayerFreeThrowing) && regularButton}
+
+                    {isPointsCol && 
+                      <>
+                        <button
+                          disabled={!!isFreeThrowPlayer || isFoulOn || revert && value < 2}
+                          onClick={getActionHandler(statsKey, id, amountToChange(-2, 2))}
+                          className="stats-action mt-1">
+                          {amountToChange(-2, '+2')}
+                        </button>
+                        <button
+                          disabled={!!isFreeThrowPlayer || isFoulOn || revert && value < 2}
+                          onClick={getActionHandler(statsKey, id, amountToChange(-3, 3))}
+                          className="stats-action mt-1">
+                          {amountToChange(-3, '+3')}
+                        </button>
+                      </>
+                    }
                   </div>
                 )
 
+                const statsClass = isPointsCol && { className: 'underline' }
                 const playerStats = (
-                  <div className='flex flex-col items-center gap-2' key={`${teamId}_${id}_${statsKey}_value${idx}`}>
-                    <span>{value}</span>
+                  <div className='flex flex-col items-center gap-1' key={`${teamId}_${id}_${statsKey}_value${idx}`}>
+                    <span onClick={() => isPointsCol && handleFullPointsVisibility(player)()} {...statsClass}>{value}</span>
+                    {isPointsCol && isFullPlayerPointsVisible[id] && <div className='flex flex-col items-baseline '>
+                      <span>3: {player.threePoints}</span>
+                      <span>2: {player.twoPoints}</span>
+                      <span>1: {player.onePoints}</span>
+                    </div>
+                    }
                   </div>
                 )
 
@@ -139,7 +194,7 @@ const PlaygroundTeamContainer = ({
       }
       )}
     </div>
-  </section>
+  </section >
 }
 
 export const PlaygroundTeam = React.memo(PlaygroundTeamContainer)
