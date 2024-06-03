@@ -1,18 +1,23 @@
 import { HistoryMatchType } from "@/types/teams"
 
+const commonStats = {
+    threePoints: 0,
+    twoPoints: 0,
+    onePoints: 0,
+}
 export const MATCHES_MOCK: HistoryMatchType[] = [{
     "teamA": {
         "id": "Centro", "name": "Centro",
         "players":
             [
-                { "id": "Luiz", "name": "Luiz", "points": 3, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, { "id": "LypeZ", "name": "LypeZ", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, { "id": "Kaio", "name": "Kaio", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }
+                {...commonStats, "id": "Luiz", "name": "Luiz", "points": 3, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, {...commonStats, "id": "LypeZ", "name": "LypeZ", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, { ...commonStats,"id": "Kaio", "name": "Kaio", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }
             ], "points": 7, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
     },
     "teamB": {
         "id": "Santa", "name": "Santa",
         "players":
             [
-                { "id": "Chris", "name": "Chris", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { "id": "Drew", "name": "Drew", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { "id": "Gelin", "name": "Gelin", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }
+                {...commonStats, "id": "Chris", "name": "Chris", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { ...commonStats,"id": "Drew", "name": "Drew", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { ...commonStats,"id": "Gelin", "name": "Gelin", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }
             ], "points": 6, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
     },
     "fouls": [],
@@ -23,13 +28,13 @@ export const MATCHES_MOCK: HistoryMatchType[] = [{
         "id": "Santa", "name": "Santa",
         "players":
             [
-                { "id": "Chris", "name": "Chris", "points": 11, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { "id": "Drew", "name": "Drew", "points": 6, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { "id": "Gelin", "name": "Gelin", "points": 0, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }
+                {...commonStats, "id": "Chris", "name": "Chris", "points": 11, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { ...commonStats,"id": "Drew", "name": "Drew", "points": 6, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { ...commonStats,"id": "Gelin", "name": "Gelin", "points": 0, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }
             ], "points": 17, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
     },
     "teamB": {
         "id": "El Crime", "name": "El Crime",
         "players": [
-            { "id": "Bruno", "name": "Bruno", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "El Crime" }, { "id": "Luiz Agua", "name": "Luiz Agua", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "El Crime" }, { "id": "Jack", "name": "Jack", "points": 1, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "El Crime" }
+            { ...commonStats,"id": "Bruno", "name": "Bruno", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "El Crime" }, {...commonStats, "id": "Luiz Agua", "name": "Luiz Agua", "points": 2, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "El Crime" }, { ...commonStats,"id": "Jack", "name": "Jack", "points": 1, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "El Crime" }
         ], "points": 5, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
     }, "fouls": [],
     "endedAt": 1702028966197
@@ -37,11 +42,11 @@ export const MATCHES_MOCK: HistoryMatchType[] = [{
 {
     "teamA": {
         "id": "Centro", "name": "Centro",
-        "players": [{ "id": "Luiz", "name": "Luiz", "points": 0, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, { "id": "LypeZ", "name": "LypeZ", "points": 0, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, { "id": "Kaio", "name": "Kaio", "points": 4, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }], "points": 4, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
+        "players": [{...commonStats, "id": "Luiz", "name": "Luiz", "points": 0, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, {...commonStats, "id": "LypeZ", "name": "LypeZ", "points": 0, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }, {...commonStats, "id": "Kaio", "name": "Kaio", "points": 4, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Centro" }], "points": 4, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
     },
     "teamB": {
         "id": "Santa", "name": "Santa",
-        "players": [{ "id": "Chris", "name": "Chris", "points": 7, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { "id": "Drew", "name": "Drew", "points": 3, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, { "id": "Gelin", "name": "Gelin", "points": 1, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }], "points": 11, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
+        "players": [{...commonStats, "id": "Chris", "name": "Chris", "points": 7, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, {...commonStats, "id": "Drew", "name": "Drew", "points": 3, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }, {...commonStats, "id": "Gelin", "name": "Gelin", "points": 1, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0, "teamId": "Santa" }], "points": 11, "assistances": 0, "ballSteals": 0, "blocks": 0, "rebounds": 0
     }, "fouls": [], "endedAt": 1702030291216
 }
 ]
