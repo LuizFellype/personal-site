@@ -1,16 +1,17 @@
 # Personal Website
 
-Welcome to my [personal website](https://mldangelo.com)! This is an [MIT licensed](https://github.com/mldangelo/personal-site/blob/main/LICENSE) React-based Jamstack application. It offers a simple interface, easy modifications, static export capabilities, and free automatic deployments via [GitHub Pages](https://pages.github.com/).
+Welcome to my [personal website](/)! This is an [MIT licensed](https://github.com/LuizFellype/personal-site/blob/main/LICENSE) React-based Jamstack application. It offers a simple interface, easy modifications, static export capabilities, and free automatic deployments via [GitHub Pages](https://pages.github.com/).
 
 ## 🚀 Features
 
 - Built with modern JavaScript, using tools and frameworks like [create-react-app](https://github.com/facebook/create-react-app), [React-Router](https://reactrouter.com/), and SCSS.
-- Automated workflows via [GitHub Actions](https://github.com/features/actions).
-- And more!
+
+<!-- - Automated workflows via [GitHub Actions](https://github.com/features/actions).
+- And more! -->
 
 ## 🛠 Adapting this Project
 
-Want to create your own personal website based on this project? You can set it up in as little as 30 minutes! Follow the setup instructions below and check out the **[detailed guide and checklist](./docs/adapting-guide.md)** on adapting this project to your needs. If you encounter any challenges, don't hesitate to contact me through an issue or email at [help@mldangelo.com](mailto:help@mldangelo.com).
+Want to create your own personal website based on this project? You can set it up in as little as 30 minutes! Follow the setup instructions below and check out the **[detailed guide and checklist](./docs/adapting-guide.md)** on adapting this project to your needs. If you encounter any challenges, don't hesitate to contact me through an issue or email at [help@luizfellype.com](mailto:luizfellypecassago+help@gmail.com).
 
 ## 🤝 Contributing
 
@@ -25,7 +26,7 @@ Ensure you have [node](https://nodejs.org/) >= v16. Optionally, use [nvm](https:
 1. Clone the repository:
 
    ```bash
-   git clone git://github.com/mldangelo/personal-site.git
+   git clone git://github.com/LuizFellype/personal-site.git
    cd personal-site
    ```
 
