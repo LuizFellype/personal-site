@@ -2,7 +2,6 @@
   "name": "personal-site",
   "version": "4.0.0",
   "license": "MIT",
-  "homepage": "https://LuizFellype.com/",
   "repository": {
     "type": "git",
     "url": "https://github.com/LuizFellype/personal-site.git"
@@ -12,7 +11,7 @@
   },
   "scripts": {
     "analyze": "npm run build && source-map-explorer build/static/js/*.chunk.js",
-    "build": "rimraf ./build && react-scripts build",
+    "build": "react-scripts build",
     "lint": "eslint \"**/*.js\"",
     "predeploy": "npm run build && react-snap",
     "start": "react-scripts start",
