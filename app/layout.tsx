@@ -2,6 +2,7 @@ import { TeamsProvider } from '@/hooks/TeamsContext'
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import Navigation from '@/containers/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -80,6 +81,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
+      <Navigation />
       <body className={inter.className} suppressHydrationWarning={true}>
         <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider>
       </body>
