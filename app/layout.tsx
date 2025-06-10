@@ -1,8 +1,9 @@
-import { TeamsProvider } from '@/hooks/TeamsContext'
+// import { TeamsProvider } from '@/hooks/TeamsContext'
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import Navigation from '@/containers/Header'
+import Sidebar from '@/containers/Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
       type: "image/png",
       sizes: "32x32",
     },
-    {rel: "apple-touch-icon", url: "https://example.com/apple-icon.png"}
+    { rel: "apple-touch-icon", url: "https://example.com/apple-icon.png" }
   ],
   other: { charSet: 'utf-8' }
 }
@@ -80,11 +81,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <Navigation />
-      <body className={inter.className} suppressHydrationWarning={true}>
-        <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider>
-      </body>
-    </html>
+    <>
+      <html lang="en" suppressHydrationWarning={true}>
+        <body className={inter.className} suppressHydrationWarning={true}>
+          <Navigation />
+
+          <div className='min-h-screen bg-purple-200'>
+            <SideBar />
+            <div className='main-content'>
+              {/* {children} */}
+            </div>
+          </div>
+          {/* <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider> */}
+        </body>
+      </html>
+    </>
   )
 }
