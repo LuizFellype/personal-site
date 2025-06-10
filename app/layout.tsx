@@ -87,7 +87,7 @@ export default function RootLayout({
           <Navigation />
 
           <div className='min-h-screen bg-purple-200'>
-            <SideBar />
+            <Sidebar />
             <div className='main-content'>
               {/* {children} */}
             </div>
