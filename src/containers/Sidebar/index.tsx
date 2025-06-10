@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -17,17 +16,18 @@ const SideBar = () => {
                 <Link href="/" className="logo">
                     <Image
                         src="/images/me.jpg"
-                        width={200}
-                        height={200}
+                        width={160}
+                        height={160}
                         alt="Picture of the author"
-                        className='rounded-[50%]'
+                        className='rounded-[50%] mb-5'
                     />
                 </Link>
                 <header>
-                    <h2>Luiz Fellype Cassago</h2>
-                    <p>
-                        <a href="mailto:luizfellypecassago@gmail.com">luizfellypecassago@gmail.com</a>
+                    <h2 className='text-primary text-[1.5em] font-black tracking-[0.25em] leading-[1.65] uppercase mt-0 mb-2 mx-0'>Luiz Fellype Cassago</h2>
+                    <p className='tracking-[0.25em] leading-[2.5] uppercase'>
+                        <a className='text-secondary text-xs hover:text-sky-600' href="mailto:luizfellypecassago@gmail.com">luizfellypecassago@gmail.com</a>
                     </p>
+                    <div className='mt-8 pt-8 border-t-[#a0a0a04d] border-t border-solid'></div>
                 </header>
             </section>
 

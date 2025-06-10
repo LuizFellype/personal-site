@@ -86,10 +86,10 @@ export default function RootLayout({
         <body className={inter.className} suppressHydrationWarning={true}>
           <Navigation />
 
-          <div className='min-h-screen bg-purple-200'>
-            <Sidebar />
-            <div className='main-content'>
-              {/* {children} */}
+          <div className='min-h-screen bg-purple-200 flex gap-3 pt-[5.5em] px-[3em]'>
+              <Sidebar />
+            <div className='main-content d_border d_shake'>
+              {children}
             </div>
           </div>
           {/* <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider> */}

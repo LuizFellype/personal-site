@@ -10,7 +10,7 @@ const Navigation = () => (
       {ROUTES
         .filter((l) => l.index)
         .map((l) => (
-          <Link href={l.path} key={l.label} className='uppercase pl-8 text-primary tracking-[4px] font-extrabold' >
+          <Link href={l.path} key={l.label} className='uppercase pl-6 text-primary tracking-[4px] font-extrabold' >
             {l.label}
           </Link>
         ))}
