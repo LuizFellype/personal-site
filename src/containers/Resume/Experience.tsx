@@ -29,6 +29,7 @@ const Job = ({
         {endDate ? dayjs(endDate).format('MMMM YYYY') : 'PRESENT'}
       </p>
     </header>
+
     {summary ? (
       <Markdown
         options={{
@@ -44,6 +45,7 @@ const Job = ({
         {summary}
       </Markdown>
     ) : null}
+    
     {highlights ? (
       <ul className="points">
         {highlights.map((highlight) => (

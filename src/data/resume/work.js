@@ -26,7 +26,7 @@ const work = [
   },
   {
     name: 'Thoughtworks',
-    position: 'Senior Software Engineer',
+    position: 'Software Engineer',
     url: '',
     startDate: '2021-05-17',
     endDate: '2025-04-23',
@@ -41,7 +41,7 @@ const work = [
   },
   {
     name: 'UseMobile',
-    position: 'Senior Software Engineer',
+    position: 'Software Engineer',
     url: 'https://usemobile.com.br/sobre/',
     startDate: '2021-02-01',
     endDate: '2021-05-01',
@@ -85,12 +85,12 @@ const work = [
     url: '',
     startDate: '2018-01-01',
     endDate: '2020-01-01',
-    summary: `xDevel is a software development company that specializes in building scalable systems.
-    I was one of 2 frontends in the team, working on a variety of projects for different clients.`,
+    summary: `xDevel is a software development company that specializes in building scalable systems.`,
     highlights: [
       'Place where I learned the foundation of my software engineering skills. Specially HOW to learn and embrace new technologies.',
       'First time hands on client projects.',
       'Developed a variety of projects, including an inventory app, school-student performance tracking, custom text editor with report generator, and mapping parking lot ship.',
+      'I was one of 2 devs in the team, working on a variety of projects for different clients.',
       'Stack: React, React-Native, Angular 4, Node, GraphQL, AWS, Postgree, Prisma',
     ],
   },
