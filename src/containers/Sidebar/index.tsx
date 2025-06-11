@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-// import ContactIcons from '../Contact/ContactIcons';
+import ContactIcons from '@/containers/ContactIcons';
 
-// const { PUBLIC_URL } = process.env; // set automatically from package.json:homepage
 import { headers } from "next/headers";
 
 const SideBar = () => {
@@ -24,16 +23,16 @@ const SideBar = () => {
                 </Link>
                 <header>
                     <h2 className='text-primary text-[1.5em] font-black tracking-[0.25em] leading-[1.65] uppercase mt-0 mb-2 mx-0'>Luiz Fellype Cassago</h2>
-                    <p className='tracking-[0.25em] leading-[2.5] uppercase'>
-                        <a className='text-secondary text-xs hover:text-sky-600' href="mailto:luizfellypecassago@gmail.com">luizfellypecassago@gmail.com</a>
-                    </p>
+
+                    <ContactIcons />
+
                     <div className='mt-8 pt-8 border-t-[#a0a0a04d] border-t border-solid'></div>
                 </header>
             </section>
 
-            <section className="blurb">
+            {/* <section className="blurb">
                 <h2>About</h2>
-                <p>
+                <p className='text-secondary text-[0.9em] leading-[1.5]'>
                     Hi, I&apos;m Luiz. I am a{' '}
                     software engineer, passionate about building applications.
                 </p>
@@ -50,11 +49,9 @@ const SideBar = () => {
                         )}
                     </li>
                 </ul>
-            </section>
+            </section> */}
 
-            <section id="footer">
-                {/* <ContactIcons /> */}
-            </section>
+
         </section>
     )
 };

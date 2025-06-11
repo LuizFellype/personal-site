@@ -17,6 +17,7 @@
 }
 
 body {
+  overflow-x: hidden;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom,
       transparent,
@@ -126,6 +127,40 @@ h3,
 h4 {
   color: #3c3b3b;
 }
+
+/* Header */
+.bm-item-list {
+  color: #3c3b3b;
+  padding: .8em;
+}
+.bm-menu {
+  background: rgb(243 232 255 / var(--tw-bg-opacity));
+  font-size: 1.15em;
+  padding: 2.5em 1.5em 0;
+}
+.hamburger-ul h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.hamburger-ul li + li {
+  padding-top: 1rem;
+  border-top: .5px solid #3c3b3b3a;
+}
+#react-burger-menu-btn, .bm-burger-bars {
+  width: 0% !important;
+}
+
+
+/* SIDEBAR */
+.icons a svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #3c3b3b;
+}
+
+
 
 /* RESUME */
 .title {
@@ -276,3 +311,4 @@ header .title {
   right: 10px;
   top: 0;
 }
+

@@ -86,7 +86,7 @@ export default function RootLayout({
         <body className={inter.className} suppressHydrationWarning={true}>
           <Navigation />
 
-          <div className='min-h-screen bg-purple-200 flex justify-center flex-wrap gap-3 pt-[5.5em] md:px-[3em] px-3'>
+          <div className='min-h-screen bg-mainbg flex justify-center flex-wrap gap-3 pt-[5.5em] md:px-[3em] px-3'>
               <Sidebar />
             <div className='main-content d_card d_shake'>
               {children}
