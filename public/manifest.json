@@ -5,9 +5,9 @@
   "orientation": "portrait",
   "display": "standalone",
   "scope": "/",
-  "name": "Baskonha do Santa",
-  "short_name": "BaskSanta",
-  "description": "App to track basket statitics",
+  "name": "Luiz Fellype Portifolio",
+  "short_name": "LypePortifolio",
+  "description": "Personal Site Presentation",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

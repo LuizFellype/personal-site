@@ -15,7 +15,7 @@ const Navigation = () => (
           </Link>
         ))}
     </h1>
-    <div className="links flex-1 h-[inherit] leading-[inherit] overflow-hidden ml-[1.5em] pl-[1.5em] border-l-[#a0a0a04d] border-l border-solid">
+    <div className="links flex-1 h-[inherit] leading-[inherit] overflow-scroll ml-[1.5em] pl-[1.5em] border-l-[#a0a0a04d] border-l border-solid">
       <ul className=''>
         {ROUTES
           .filter((l) => !l.index)

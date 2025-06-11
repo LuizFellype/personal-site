@@ -7,10 +7,10 @@ import Sidebar from '@/containers/Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
-const APP_NAME = 'BaskSanta'
-const APP_DEFAULT_TITLE = "Basket Stats";
-const APP_TITLE_TEMPLATE = "%s - Bask Santa";
-const APP_DESCRIPTION = 'App to score basket stats 3x3 match.';
+const APP_NAME = 'Lype Portfolio'
+const APP_DEFAULT_TITLE = "Luiz Fellype - Portfolio";
+const APP_TITLE_TEMPLATE = "%s - Portifolio";
+const APP_DESCRIPTION = 'Personal Site Presentation';
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -86,13 +86,12 @@ export default function RootLayout({
         <body className={inter.className} suppressHydrationWarning={true}>
           <Navigation />
 
-          <div className='min-h-screen bg-purple-200 flex gap-3 pt-[5.5em] px-[3em]'>
+          <div className='min-h-screen bg-purple-200 flex justify-center flex-wrap gap-3 pt-[5.5em] md:px-[3em] px-3'>
               <Sidebar />
-            <div className='main-content d_border d_shake'>
+            <div className='main-content d_card d_shake'>
               {children}
             </div>
           </div>
-          {/* <TeamsProvider><div className='min-h-screen bg-purple-200 pt-2 pb-3 px-3'>{children}</div></TeamsProvider> */}
         </body>
       </html>
     </>

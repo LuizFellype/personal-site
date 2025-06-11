@@ -18,33 +18,22 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
-.d_border {
-  border-bottom-left-radius: 15px 255px;
-  border-bottom-right-radius: 225px 15px;
-  border-top-left-radius: 255px 15px;
-  border-top-right-radius: 15px 225px;
-  border: 2px solid #41403e;
-  padding: 1rem
-}
 .d_card {
   border-bottom-left-radius: 15px 255px;
   border-bottom-right-radius: 225px 15px;
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
   border: 2px solid #41403e;
-
-  margin-bottom: 3em;
-
-  transform: rotate(-1.5deg);
+  padding: 1rem;
+  background-color: #e6ddd0;
+  max-width: 100%;
 }
+
 
 
 .d_shake {
@@ -55,6 +44,7 @@ body {
 }
 
 @keyframes shake {
+
   10%,
   90% {
     transform: translate3d(-1px, 0, 0);
@@ -86,9 +76,11 @@ body {
   0% {
     transform: scale(0) rotateZ(360deg);
   }
+
   99% {
     transform: scale(1.1) rotateZ(0deg);
   }
+
   100% {
     transform: scale(1);
   }
@@ -96,10 +88,191 @@ body {
 
 
 #sidebar {
-  flex: 0.3;
-  padding-right: 40px;
+  width: 100%;
+}
+
+#sidebar #intro {
+  text-align: -webkit-center;
+}
+#sidebar #intro a {
+  text-align: -webkit-center;
+}
+
+@media (max-widht: 1280px) {
+  #sidebar {
+    padding-right: 40px;
+    flex: 0.3;
+  }
+  #sidebar .intro a {
+    text-align: left
+  }
 }
 
 .main-content {
   flex: 0.7;
+}
+
+.page-wrapper {
+  color: #646464;
+  max-width: 100%
+}
+
+.page-wrapper>header {
+  border-bottom: 1px solid #3c3b3b3a
+}
+
+h2,
+h3,
+h4 {
+  color: #3c3b3b;
+}
+
+/* RESUME */
+.title {
+  padding: 1rem 0 1.5rem;
+}
+
+header .title {
+  padding: 3.2rem 0 3rem;
+}
+
+.title h3 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.title h2 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+}
+
+.link-container {
+  letter-spacing: 2.8px;
+  font-weight: 800;
+  font-size: .7rem;
+  text-transform: uppercase;
+  display: flex;
+  gap: 0.8rem;
+  color: #3c3b3b
+}
+
+.link-container a:hover {
+  color: rgb(116, 91, 244)
+}
+
+
+.jobs-container {
+  font-size: 1rem;
+  color: #646464;
+  letter-spacing: 2.8px;
+  line-height: 28px;
+
+}
+
+.jobs-container header {
+  text-transform: uppercase;
+}
+
+.jobs-container h3 {
+  color: #3c3b3b;
+  font-weight: 800;
+  letter-spacing: 3.6px;
+  font-size: 0.9rem;
+}
+
+.jobs-container h4 {
+  color: #3c3b3b;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.jobs-container .daterange {
+  line-height: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.jobs-container .points {
+  margin: 0;
+  padding: 0;
+  font-size: 0.9em;
+  list-style-type: disc;
+  padding-left: 1.2rem;
+  margin: 0.2rem 0 2em;
+}
+
+.skill-button-container {
+  justify-content: center;
+  font-size: medium;
+  flex-wrap: wrap;
+  margin: 1.6rem 0;
+}
+
+.skill-button-container button {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #3c3b3b;
+  height: 3em;
+  padding: 0 24px
+}
+
+.skill-button-container button:hover {
+  box-shadow: 0 0 0 1px #2e59ba;
+  color: #2e59ba;
+}
+
+.skillbar {
+  background: #eee;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  display: block;
+  height: 35px;
+  margin-bottom: 15px;
+  position: relative;
+  transition: .4s linear;
+  transition-property: width, background-color;
+  width: 100%;
+}
+
+.skillbar-title span {
+  background: #0000001a;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  display: block;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 20px;
+}
+
+.skillbar-title {
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.skillbar-bar {
+  border-radius: 3px;
+  height: 35px;
+}
+
+.skill-bar-percent {
+  color: #444;
+  color: #0006;
+  font-size: 11px;
+  height: 35px;
+  line-height: 35px;
+  position: absolute;
+  right: 10px;
+  top: 0;
 }
