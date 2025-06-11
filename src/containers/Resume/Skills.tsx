@@ -60,7 +60,7 @@ const Skills = ({ skills, categories }: SkillsType) => {
 
   const handleChildClick = (label: string) => {
     // Toggle button that was clicked. Turn all other buttons off.
-    const newButtons = Object.keys(buttons).reduce(
+    const newButtons: { [key: string]: any } = Object.keys(buttons).reduce(
       (obj, key) => ({
         ...obj,
         [key]: label === key && !buttons[key],
@@ -68,8 +68,7 @@ const Skills = ({ skills, categories }: SkillsType) => {
       {},
     );
     // Turn on 'All' button if other buttons are off
-    newButtons.All = !Object.keys(buttons).some((key) => newButtons[key]);
-    setButtons(newButtons);
+    setButtons({...newButtons, All: !Object.keys(buttons).some((key) => newButtons[key])});
   };
 
   const getRows = () => {
@@ -79,7 +78,7 @@ const Skills = ({ skills, categories }: SkillsType) => {
       'All',
     );
 
-    const comparator = (a, b) => {
+    const comparator = (a: Skill, b: Skill) => {
       let ret = 0;
       if (a.competency > b.competency) ret = -1;
       else if (a.competency < b.competency) ret = 1;

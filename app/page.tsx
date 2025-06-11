@@ -13,7 +13,7 @@ import Skills from '@/containers/Resume/Skills';
 import degrees from '@/data/resume/degrees';
 import work from '@/data/resume/work';
 import { skills, categories } from '@/data/resume/skills';
-import Link from 'next/link'
+// import Link from 'next/link'
 
 
 
@@ -91,6 +91,7 @@ const sections = {
   // References: () => <References />,
 };
 
+
 const Resume = () => (
   <article className="post page-wrapper md:px-[2.5rem] px-3" id="resume">
     <header>
@@ -113,4 +114,17 @@ const Resume = () => (
   </article>
 );
 
+Resume.getStaticProps = () => ({
+  props: {
+    hello: 'world',
+  },
+})
+
 export default Resume;
+
+// export const getStaticProps = () => {
+//   return {
+//     props: {
+//     },
+//   };
+// }

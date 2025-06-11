@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 
 import Link from 'next/link';
 import ROUTES from '../../data/routes';
@@ -7,27 +7,31 @@ import Menu from 'react-burger-menu/lib/menus/slide';
 
 const Hamburger = () => {
   const [open, setOpen] = useState(false);
-
+  const handleMenuClick = () => {
+    setOpen(!open);
+  }
+  
   return (
-    <div className="hamburger-container">
-      <nav className="main" id="hambuger-nav">
+    <div className="hamburger-container md:hidden">
+      <nav className="main text-mainbg text-lg p" onClick={handleMenuClick} id="hambuger-nav">
         <ul>
           {open ? (
             <li className="menu close-menu">
-              <div onClick={() => setOpen(!open)} className="menu-hover">
+              <div className="menu-hover">
                 &#10005;
               </div>
             </li>
           ) : (
             <li className="menu open-menu">
-              <div onClick={() => setOpen(!open)} className="menu-hover">
+              <div className="menu-hover">
                 &#9776;
               </div>
             </li>
           )}
         </ul>
       </nav>
-      {/* <Suspense fallback={<></>}> */}
+   
+      <Suspense fallback={<></>}>
         <Menu right isOpen={open}>
           <ul className="hamburger-ul">
             {ROUTES.map((l) => (
@@ -39,7 +43,7 @@ const Hamburger = () => {
             ))}
           </ul>
         </Menu>
-      {/* </Suspense> */}
+      </Suspense>
     </div>
   );
 };

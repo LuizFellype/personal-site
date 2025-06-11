@@ -1,11 +1,13 @@
 import React from 'react';
 
-// import Hamburger from './Hamburger';
+import Hamburger from './Hamburger';
 import ROUTES from '@/data/routes';
 import Link from 'next/link';
 
 const Navigation = () => (
-  <div id="header" className='bg-white text-[0.7rem] flex h-[5em] justify-between leading-[5em] fixed w-full z-[10000] border-b-[#a0a0a04d] border-b border-solid left-0 top-0'>
+  <div 
+    id="header" 
+    className='bg-purple-100 text-[0.7rem] flex h-[5em] justify-between items-center leading-[5em] fixed w-full z-[10000] border-b-[#a0a0a04d] border-b border-solid left-0 top-0 pr-5'>
     <h1 className="index-link">
       {ROUTES
         .filter((l) => l.index)
@@ -15,7 +17,7 @@ const Navigation = () => (
           </Link>
         ))}
     </h1>
-    <div className="links flex-1 h-[inherit] leading-[inherit] overflow-scroll ml-[1.5em] pl-[1.5em] border-l-[#a0a0a04d] border-l border-solid">
+    <div className="hidden md:block links flex-1 h-[inherit] leading-[inherit] ml-[1.5em] pl-[1.5em] border-l-[#a0a0a04d] border-l border-solid">
       <ul className=''>
         {ROUTES
           .filter((l) => !l.index)
@@ -26,7 +28,8 @@ const Navigation = () => (
           ))}
       </ul>
     </div>
-    {/* <Hamburger /> */}
+
+    <Hamburger />
   </div>
 );
 

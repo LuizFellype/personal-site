@@ -30,9 +30,9 @@ const work = [
     url: '',
     startDate: '2021-05-17',
     endDate: '2025-04-23',
-    summary: 'TW is a consulting company that specializes in software development and IT services. I was a senior engineer for a well known American clothing and accessories retailer.',
+    summary: 'TW is a consulting company specialized in software development and IT services. I was a senior engineer for a well known American clothing and accessories retailer.',
     highlights: [
-      'I was one of key developers, solved challenging issues enhancing the user experience for a multi billion retailers customer facing site.',
+      'One of key developers, solved challenging issues enhancing the user experience for a multi billion retailers customer facing site.',
       'I led full features, major bugs hunting, accessibility improvements, multiple brands redesigns, improved code quality with design/architectural patterns and automated tests.',
       'I led cross-functional teams in delivering high-quality software on time. Developed the long-term technical vision and roadmap within, and often beyond, the scope of my teams. Evolved the roadmap to meet anticipated future requirements and infrastructure needs.',
       'Advised the team on best practices, and mentored other developers.',
