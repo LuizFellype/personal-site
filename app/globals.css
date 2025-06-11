@@ -109,10 +109,6 @@ body {
   }
 }
 
-.main-content {
-  flex: 0.7;
-}
-
 .page-wrapper {
   color: #646464;
   max-width: 100%
