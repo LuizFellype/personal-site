@@ -1,5 +1,6 @@
+// import { TeamsProvider } from '@/hooks/TeamsContext'
+import './globals.css'
 import type { Metadata, Viewport } from 'next'
-import "./globals.css";
 import { Inter } from 'next/font/google'
 import Navigation from '@/containers/Header'
 import Sidebar from '@/containers/Sidebar'
@@ -72,6 +73,8 @@ export const viewport: Viewport = {
   viewportFit: 'cover'
 }
 
+
+
 export default function RootLayout({
   children,
 }: {
@@ -94,4 +97,3 @@ export default function RootLayout({
     </>
   )
 }
-

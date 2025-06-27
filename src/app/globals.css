@@ -1,26 +1,306 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
+
+.d_card {
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border: 2px solid #41403e;
+  padding: 1rem;
+  background-color: #e6ddd0;
+  max-width: 100%;
+}
+
+
+
+.d_shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  /* transform: translate3d(0, 0, 0); */
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.d_scale {
+  animation: floatingEffect 0.3s ease-in;
+  backface-visibility: hidden;
+}
+
+@keyframes floatingEffect {
+  0% {
+    transform: scale(0) rotateZ(360deg);
+  }
+
+  99% {
+    transform: scale(1.1) rotateZ(0deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+#sidebar #intro {
+  text-align: -webkit-center;
+}
+#sidebar #intro a {
+  text-align: -webkit-center;
+}
+
+@media (max-widht: 1280px) {
+  #sidebar {
+    padding-right: 40px;
+    flex: 0.3;
+  }
+  #sidebar .intro a {
+    text-align: left
+  }
+}
+
+.page-wrapper {
+  color: #646464;
+  max-width: 100%
+}
+
+.page-wrapper>header {
+  border-bottom: 1px solid #3c3b3b3a
+}
+
+h2,
+h3,
+h4 {
+  color: #3c3b3b;
+}
+
+/* Header */
+.bm-item-list {
+  color: #3c3b3b;
+  padding: .8em;
+}
+.bm-menu {
+  background: rgb(243 232 255 / var(--tw-bg-opacity));
+  font-size: 1.15em;
+  padding: 2.5em 1.5em 0;
+}
+.hamburger-ul h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.hamburger-ul li + li {
+  padding-top: 1rem;
+  border-top: .5px solid #3c3b3b3a;
+}
+#react-burger-menu-btn, .bm-burger-bars {
+  width: 0% !important;
+}
+
+
+/* SIDEBAR */
+.icons a svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #3c3b3b;
+}
+
+
+
+/* RESUME */
+.title {
+  padding: 1rem 0 1.5rem;
+}
+
+header .title {
+  padding: 3.2rem 0 3rem;
+}
+
+.title h3 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.title h2 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+}
+
+.link-container {
+  letter-spacing: 2.8px;
+  font-weight: 800;
+  font-size: .7rem;
+  text-transform: uppercase;
+  display: flex;
+  gap: 0.8rem;
+  color: #3c3b3b
+}
+
+.link-container a:hover {
+  color: rgb(116, 91, 244)
+}
+
+
+.jobs-container {
+  font-size: 1rem;
+  color: #646464;
+  letter-spacing: 2.8px;
+  line-height: 28px;
+
+}
+
+.jobs-container header {
+  text-transform: uppercase;
+}
+
+.jobs-container h3 {
+  color: #3c3b3b;
+  font-weight: 800;
+  letter-spacing: 3.6px;
+  font-size: 0.9rem;
+}
+
+.jobs-container h4 {
+  color: #3c3b3b;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.jobs-container .daterange {
+  line-height: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.jobs-container .points {
+  margin: 0;
+  padding: 0;
+  font-size: 0.9em;
+  list-style-type: disc;
+  padding-left: 1.2rem;
+  margin: 0.2rem 0 2em;
+}
+
+.skill-button-container {
+  justify-content: center;
+  font-size: medium;
+  flex-wrap: wrap;
+  margin: 1.6rem 0;
+}
+
+.skill-button-container button {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #3c3b3b;
+  height: 3em;
+  padding: 0 24px
+}
+
+.skill-button-container button:hover {
+  box-shadow: 0 0 0 1px #2e59ba;
+  color: #2e59ba;
+}
+
+.skillbar {
+  background: #eee;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  display: block;
+  height: 35px;
+  margin-bottom: 15px;
+  position: relative;
+  transition: .4s linear;
+  transition-property: width, background-color;
+  width: 100%;
+}
+
+.skillbar-title span {
+  background: #0000001a;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  display: block;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 20px;
+}
+
+.skillbar-title {
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.skillbar-bar {
+  border-radius: 3px;
+  height: 35px;
+}
+
+.skill-bar-percent {
+  color: #444;
+  color: #0006;
+  font-size: 11px;
+  height: 35px;
+  line-height: 35px;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+
