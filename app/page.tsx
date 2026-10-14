@@ -6,11 +6,14 @@
 // import { useRouter } from 'next/navigation'
 // import { useEffect, useRef, useState } from 'react'
 
+import Certifications from '@/containers/Resume/Certifications';
 import Education from '@/containers/Resume/Education';
 import Experience from '@/containers/Resume/Experience';
 import Skills from '@/containers/Resume/Skills';
 
+import certifications from '@/data/resume/certifications';
 import degrees from '@/data/resume/degrees';
+import summary from '@/data/resume/summary';
 import work from '@/data/resume/work';
 import { skills, categories } from '@/data/resume/skills';
 // import Link from 'next/link'
@@ -86,6 +89,7 @@ import { skills, categories } from '@/data/resume/skills';
 const sections = {
   Experience: () => <Experience data={work} />,
   Education: () => <Education data={degrees} />,
+  Certifications: () => <Certifications data={certifications} />,
   Skills: () => <Skills skills={skills} categories={categories} />,
   // Courses: () => <Courses data={courses} />,
   // References: () => <References />,
@@ -108,6 +112,11 @@ const Resume = () => (
         </div>
       </div>
     </header>
+    <section className="resume-summary mb-8">
+      {summary.map((paragraph) => (
+        <p className="mb-4" key={paragraph}>{paragraph}</p>
+      ))}
+    </section>
     {Object.entries(sections).map(([name, Section]) => (
       <Section key={name} />
     ))}
