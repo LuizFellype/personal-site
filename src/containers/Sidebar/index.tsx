@@ -23,6 +23,8 @@ const SideBar = () => {
                 </Link>
                 <header>
                     <h2 className='text-primary text-[1.5em] font-black tracking-[0.25em] leading-[1.65] uppercase mt-0 mb-2 mx-0'>Luiz Fellype Cassago</h2>
+                    <p className='text-secondary text-[0.8em] tracking-[0.2em] uppercase mb-1'>Lead Web Developer</p>
+                    <p className='text-secondary text-[0.85em] mb-4'>Vitória, Espírito Santo, Brazil</p>
 
                     <ContactIcons />
 

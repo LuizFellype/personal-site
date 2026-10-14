@@ -16,7 +16,7 @@ const data = [
     icon: faLinkedinIn,
   },
   {
-    link: 'mailto:luizfellypecassago+fromsite@gmail.com',
+    link: 'mailto:lfcassago@gmail.com',
     label: 'Email',
     icon: faEnvelope,
   },

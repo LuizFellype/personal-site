@@ -1,9 +1,9 @@
 const degrees = [
   {
     school: 'Faesa',
-    degree: 'System of Information',
+    degree: 'Master of Computer Science',
     link: 'https://www.faesa.br/quem-somos',
-    year: 2021,
+    year: 2025,
   },
   {
     school: 'Multivix',

@@ -9,6 +9,7 @@ type Skill = {
   title: string;
   competency: number;
   category: string[];
+  color?: string;
 }
 type SkillsType = {
   skills: Skill[];
@@ -25,19 +26,33 @@ const CategoryButton = ({ handleClick, active, label }: { handleClick: Function,
   </button>
 );
 
-const SkillBar = ({ data, categories }: { data: Skill; categories: Category[] }) => {
-  const { category, competency, title } = data;
+// Perceived brightness (YIQ, 0-255) of a hex color, used to pick a readable text color.
+const isLightColor = (hex: string) => {
+  const h = hex.replace('#', '');
+  const full = h.length === 3 ? h.split('').map((ch) => ch + ch).join('') : h;
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000 >= 150;
+};
 
-  // TODO: Consider averaging colors
-  const titleStyle = {
-    background: categories
+const SkillBar = ({ data, categories }: { data: Skill; categories: Category[] }) => {
+  const { category, competency, title, color } = data;
+
+  // Prefer the skill's own brand color; fall back to the color of its first category.
+  const background = color
+    ?? categories
       .filter((cat) => category.includes(cat.name))
-      .map((cat) => cat.color)[0],
+      .map((cat) => cat.color)[0];
+
+  const titleStyle = {
+    background,
+    color: background && isLightColor(background) ? '#1a1a1a' : '#fff',
   };
 
   const barStyle = {
-    ...titleStyle,
-    width: `${String(Math.min(100, Math.max((competency / 5.0) * 100.0, 0)))}%`,
+    background,
+    width: `${String(Math.min(100, Math.max((competency / 10.0) * 100.0, 0)))}%`,
   };
 
   return (
