@@ -11,7 +11,7 @@ const data = [
     icon: faGithub,
   },
   {
-    link: 'https://www.linkedin.com/in/luiz-fellype-cassago-011862171/',
+    link: 'https://www.linkedin.com/in/luiz-fellype-cassago',
     label: 'LinkedIn',
     icon: faLinkedinIn,
   },

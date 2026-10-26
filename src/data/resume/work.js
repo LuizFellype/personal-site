@@ -29,7 +29,7 @@ const work = [
     name: 'Custom Brand Service',
     position: 'Lead Web Developer',
     url: '',
-    startDate: '2025-11-01',
+    startDate: '2025-12-01',
     endDate: '2026-06-01',
     summary: 'Led web development projects focused on Shopify theme customization and third-party service integration. Resolved technical issues while managing and synchronizing inventories and products. Drove Klaviyo email marketing efforts and implemented search engine optimization strategies.',
     highlights: [
@@ -41,15 +41,17 @@ const work = [
     ],
   },
   {
-    name: 'Instituto Oportunidade Brasil',
-    position: 'Instructor',
+    name: 'FleetAI',
+    position: 'Machine Learning Engineer',
     url: '',
-    startDate: '2025-04-25',
-    endDate: '2025-06-01',
-    summary: 'IOB is an ONG that provides free education to afro-brazilians to increase the inclusion of young Afro-Brazilians in situations of social vulnerability in educational and professional settings.',
+    startDate: '2025-06-01',
+    endDate: '2025-12-01',
+    summary: 'Built and trained deep learning models for defect detection in industrial images using PyTorch, comparing baseline CNN architectures against pretrained models.',
     highlights: [
-      'I mentored students with courses as a introduction to Technology and Software Development',
-      'Courses: Low-Code with OutSystem, VR/AR, AI, IoT, BioTech and Blockchain',
+      'Implemented dataset loaders, preprocessing pipelines, model modifications, training loops, and evaluation code.',
+      'Resolved GPU out-of-memory constraints through gradient accumulation and reduced per-device batch sizes; evaluated mixed precision for training throughput.',
+      'Diagnosed training instability under changed precision settings by inspecting inputs, loss values, and gradient behavior.',
+      'Moved experiments from notebooks into configurable scripts with fixed data splits, recorded seeds, and saved checkpoints for reproducibility.'
     ],
   },
   {
@@ -57,7 +59,7 @@ const work = [
     position: 'Software Engineer',
     url: '',
     startDate: '2021-04-01',
-    endDate: '2025-10-01',
+    endDate: '2025-05-01',
     summary: 'TW is a consulting company specialized in software development and IT services. I was a senior engineer for a well known American clothing and accessories retailer.',
     highlights: [
       'One of key developers, solved challenging issues enhancing the user experience for a multi billion retailers customer facing site.',
@@ -72,7 +74,7 @@ const work = [
     position: 'Senior Front-end Developer',
     url: 'https://ecrubox.com/',
     startDate: '2017-12-01',
-    endDate: '2021-12-01',
+    endDate: '2021-04-01',
     summary: 'Ecrubox is a web agency. Led agency projects by preparing cost estimations, schedules, and project specifications for proposals. Engaged in formal design reviews, offering insights for technical enhancements. Mentored developers to ensure adherence to best practices and coding consistency.',
     highlights: [
       'Prepared detailed project proposals and timelines.',
